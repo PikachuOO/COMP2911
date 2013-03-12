@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class GreeterTester
 {
    public static void main(String[] args)
@@ -11,5 +13,15 @@ public class GreeterTester
       System.out.println(daveGreeter.sayHello());
       daveGreeter.setName("Janet");
       System.out.println(daveGreeter.sayHello());
+      
+      /**
+       * Prompts for 2 inputs and compare if they are contained
+       */
+      Scanner input = new Scanner(System.in);
+      if (input.nextLine().contains(input.nextLine()))
+    	  System.out.println("The second string is contained in the first string");
+      else
+    	  System.out.println("Doesn't contain");
+      input.close();
    }
 }

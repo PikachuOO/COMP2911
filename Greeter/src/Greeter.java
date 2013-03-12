@@ -26,8 +26,8 @@ public class Greeter
    }
 
    /**
-      Set the name field of class to the input
-      'aName'
+      Set the name field of class to the input string.
+      @param aName a String for the name to be called.
    */
    public void setName(String aName) {
       name = aName;
