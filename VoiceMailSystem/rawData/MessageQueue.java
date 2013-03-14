@@ -1,4 +1,4 @@
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 /**
    A first-in, first-out collection of messages. This
@@ -12,7 +12,7 @@ public class MessageQueue
    */
    public MessageQueue()
    {
-      queue = new LinkedList<Message>();
+      queue = new ArrayList<Message>();
    }
 
    /**
@@ -52,10 +52,6 @@ public class MessageQueue
       if (queue.size() == 0) return null;
       else return queue.get(0);
    }
-   
-   public void delete(Message message) {
-	   queue.remove(message);
-   }
 
-   private LinkedList<Message> queue;
+   private ArrayList<Message> queue;
 }
