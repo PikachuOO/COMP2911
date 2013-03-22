@@ -67,16 +67,21 @@ public class MessageQueueArray {
 	    */
 	   public void delete(Message message) {
 		  int indexPoint = 0;
+		  boolean found = false;
 		  for (int i = 0; i < queue.length; i++) {
 			  if (queue[i] != null && queue[i].getText().equals(message.getText())) {
 				  indexPoint = i;
 				  i = queue.length;
+				  found = true;
 			  }
 		  }
-		  for (int i = indexPoint; i < arrayIndexNumber; i++) {
-			  queue[i] = queue[i + 1];
+		  if (found) {
+			  for (int i = indexPoint; i < arrayIndexNumber; i++) {
+				  queue[i] = queue[i + 1];
+			  }
+			  if (arrayIndexNumber != 0)
+				  arrayIndexNumber--;
 		  }
-		  if (arrayIndexNumber != 0)
-			  arrayIndexNumber--;
+		  
 	   }
 }
