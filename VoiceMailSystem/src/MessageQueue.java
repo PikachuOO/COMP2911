@@ -53,6 +53,12 @@ public class MessageQueue
       else return queue.get(0);
    }
    
+   /**
+    * Delete a give message from the queue, do nothing when
+    * the given message is not contained in the queue
+    * @param message to be deleted
+    *
+    */
    public void delete(Message message) {
 	   queue.remove(message);
    }
