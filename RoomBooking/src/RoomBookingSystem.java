@@ -20,6 +20,7 @@ public class RoomBookingSystem {
 					}
 				}
 			}
+			inputScanner.close();
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
