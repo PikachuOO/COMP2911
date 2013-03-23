@@ -5,6 +5,7 @@ import java.util.LinkedList;
 public class Room {
 	private int capacity;
 	private String roomName;
+	private LinkedList<Reservation> reservations;
 	
 	/**
 	 * Construct a Room object with it's name and capacity specified.
@@ -14,6 +15,11 @@ public class Room {
 	private Room(int capacity, String name) {
 		setCapacity(capacity);
 		setRoomName(name);
+		reservations = new LinkedList<Reservation>();
+	}
+	
+	public void addReservation(Reservation reservation) {
+//		reservations.add(reservation);
 	}
 	
 	/**

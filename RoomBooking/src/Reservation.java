@@ -1,22 +1,31 @@
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 
 
 public class Reservation {
-	private Reservation reservation;
-	private String reservationTitle;
-	private Room room;
-	private Day reservationDays;
+
+	private static final int DAYS_IN_WEEKS = 7;
+	private String title;
+	private Date start;
+	private Date end;
+	private Calendar startDate;
+	private Calendar endDate;
 	private User user;
+	private Room room;
 	
-	private Reservation(String name, int capacity, int numWeeks, String month, int date, int time, int duration, String title) {
-		this.user.setName(name);
-		room = room.findRoom(capacity);
+	public Reservation(String userName, int capacity, int numWeeks, String month, int date, int time, int duration, String title) {
 	}
 	
-	public static void reserve(String name, int capacity, int numWeeks, String month, int date, int time, int duration, String title) {
-		Reservation reservation = new Reservation(name, capacity, numWeeks, month, date, time, duration, title);
-		reservations.add(reservation);
+	public void setDates(int month, int date, int numWeeks) {
+		startDate = Calendar.getInstance();
+		startDate.set(Calendar.MONTH, month);
+		startDate.set(Calendar.DATE, date);
+		int numberOfDays = DAYS_IN_WEEKS * numWeeks;
+		endDate = startDate;
+		endDate.add(Calendar.DATE, numberOfDays);		
 	}
+	
 	
 	/**
 	 * Verify if the room is reserved at a specific time or not.
@@ -28,6 +37,4 @@ public class Reservation {
 		
 		return false;
 	}
-	
-	private static LinkedList<Reservation> reservations = new LinkedList<Reservation>();
 }
