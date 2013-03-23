@@ -10,7 +10,8 @@ public class RoomBookingSystem {
 			while (inputScanner.hasNext()) {
 				String s = inputScanner.nextLine();
 				String[] params = s.split(" ");
-				if (params[0].equals("Room")) {
+				switch (params[0]) {
+				case "Room":
 					try {
 						Room.createRoom(Integer.parseInt(params[1]), params[2]);
 					} catch (NumberFormatException e) {
@@ -18,6 +19,9 @@ public class RoomBookingSystem {
 					} catch (Exception e) {
 						System.out.println("Sorry, room added. Hence, skipped.");
 					}
+					break;
+				case "Book":
+					break;
 				}
 			}
 			inputScanner.close();
