@@ -57,7 +57,7 @@ public class Room {
 	 */
 	public static void createRoom(int capacity, String name) throws Exception {
 		Room room = new Room(capacity, name);
-		if(!Room.contains(room))
+		if(!Room.containRoom(room))
 			rooms.add(room);
 		else
 			throw new Exception("Room has been added");
@@ -78,11 +78,17 @@ public class Room {
 	 * @param room The room to be checked.
 	 * @return True if the room already exists and False otherwise.
 	 */
-	public static boolean contains(Room room) {
+	public static boolean containRoom(Room room) {
 		Iterator<Room> iterator = rooms.iterator();
 		while(iterator.hasNext())
 			if(iterator.next().getRoomName().equals(room.getRoomName()))
 				return true;
+		return false;
+	}
+	
+	public static boolean containReservation(Reservation reservation) {
+		
+		
 		return false;
 	}
 	
@@ -92,10 +98,10 @@ public class Room {
 	 * it can store.
 	 * @return The room that matches the requirement.
 	 */
-	public static Room findRoom(int capacity) {
+	public Room findRoom(int capacity) {
 		Iterator<Room> iterator = rooms.iterator();
 		while (iterator.hasNext())
-			if (iterator.next().getCapacity() == capacity)
+			if (iterator.next().getCapacity() >= capacity)
 				return iterator.next();
 		return null;
 	}
