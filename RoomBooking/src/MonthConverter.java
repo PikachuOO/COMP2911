@@ -3,7 +3,7 @@ import java.util.Calendar;
 
 public class MonthConverter {
 
-	public int convertMonthToInt(String month) {
+	public static int convertMonthToInt(String month) {
 		int monthInNum = 0;
 		switch (month) {
 		case "Jan":
@@ -46,7 +46,7 @@ public class MonthConverter {
 		return monthInNum;
 	}
 	
-	public String convertMonthToString(int month) {
+	public static String convertMonthToString(int month) {
 		String monthInString = "";
 		switch (month) {
 		case 1:
