@@ -1,8 +1,6 @@
-import java.util.LinkedList;
 
 public class User {
 	private String name;
-	private LinkedList<Reservation> reservations = new LinkedList<Reservation>();
 	
 	public User(String aName) {
 		setName(aName);
