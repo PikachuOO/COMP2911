@@ -53,7 +53,7 @@ public class Room {
 	 * @param capacity An integer that specifies the number of people 
 	 * it can store.
 	 * @param name A String that specifies the name of the room.
-	 * @throws Exception Exception throws when the room already exists
+	 * @throws Exception Exception throws when the room already exists.
 	 */
 	public static void createRoom(int capacity, String name) throws Exception {
 		Room room = new Room(capacity, name);
