@@ -15,6 +15,7 @@ public class Reservation {
 			Reservation reservation = new Reservation(user, Integer.parseInt(params[2]), params[8]);
 			reservation.setReservationTime(Integer.parseInt(params[6]), Integer.parseInt(params[7]));
 			reservation.setReservationDates(params[4], Integer.parseInt(params[5]), i);
+			
 			if (!reservation.room.containReservation(reservation))
 				reservation.room.addReservation(reservation);
 			else
@@ -22,8 +23,25 @@ public class Reservation {
 		}
 	}
 	
+	/**
+	 * This method remove the need-to-change reservations
+	 * and create new reservations according to the new requirements.
+	 * @param params A list of the values needed for changes to be made.
+	 */
 	public static void changeReservation(String[] params) {
+		User user = new User(params[1]);
+		Room room = Room.findRoomByName(params[2]);
+		String newParams[] = {"Change", params[1], params[7],
+				params[3], params[8], params[9], params[10],
+				params[11], params[12]};
 		
+		for (int i = 0; i < Integer.parseInt(params[3]); i++) {
+			Reservation booking = room.findReservation(user, 
+					MonthConverter.convertMonthToInt(params[4]), 
+					Integer.parseInt(params[5]), Integer.parseInt(params[6]));
+			room.removeReservation(booking);
+		}
+		createReservation(newParams);		
 	}
 	
 	/**
@@ -35,8 +53,7 @@ public class Reservation {
 	public static void deleteReservation(String[] params) {
 		User user = new User(params[1]);
 		Room room = Room.findRoomByName(params[2]);
-		
-		
+			
 		for (int i = 0; i < Integer.parseInt(params[3]); i++) {
 			Reservation booking = room.findReservation(user, 
 					MonthConverter.convertMonthToInt(params[4]), Integer.parseInt(params[5]), 
