@@ -7,8 +7,6 @@ public class Reservation {
 	 * Create a new reservation and assign all associate
 	 * values accordingly.
 	 * @param params The list of parameters/values.
-	 * @return
-	 * @throws Exception
 	 */
 	public static void createReservation(String[] params) {
 		User user = new User(params[1]);
@@ -21,6 +19,29 @@ public class Reservation {
 				reservation.room.addReservation(reservation);
 			else
 				System.out.println("Time slot reserved. No reservation was made.");
+		}
+	}
+	
+	public static void changeReservation(String[] params) {
+		
+	}
+	
+	/**
+	 * Delete the reservation(s) specified by the list
+	 * of parameters from the input file.
+	 * @param params A list of values that specify the room
+	 * of reservation, the time and date of reservation.
+	 */
+	public static void deleteReservation(String[] params) {
+		User user = new User(params[1]);
+		Room room = Room.findRoomByName(params[2]);
+		
+		
+		for (int i = 0; i < Integer.parseInt(params[3]); i++) {
+			Reservation booking = room.findReservation(user, 
+					MonthConverter.convertMonthToInt(params[4]), Integer.parseInt(params[5]), 
+					Integer.parseInt(params[6]));
+			room.removeReservation(booking);
 		}
 	}
 	
@@ -69,7 +90,6 @@ public class Reservation {
 	public int getReservationDuration() {
 		return endTime.get(Calendar.HOUR_OF_DAY) - startTime.get(Calendar.HOUR_OF_DAY);
 	}
-	
 
 	/**
 	 * Get the title of the reservation
