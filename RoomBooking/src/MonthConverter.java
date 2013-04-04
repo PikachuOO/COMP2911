@@ -49,40 +49,40 @@ public class MonthConverter {
 	public static String convertMonthToString(int month) {
 		String monthInString = "";
 		switch (month) {
-		case 1:
+		case 0:
 			monthInString = "Jan";
 			break;
-		case 2:
+		case 1:
 			monthInString = "Feb";
 			break;
-		case 3:
+		case 2:
 			monthInString = "Mar";
 			break;
-		case 4:
+		case 3:
 			monthInString = "Apr";
 			break;
-		case 5:
+		case 4:
 			monthInString = "May";
 			break;
-		case 6:
+		case 5:
 			monthInString = "June";
 			break;
-		case 7:
+		case 6:
 			monthInString = "July";
 			break;
-		case 8:
+		case 7:
 			monthInString = "Aug";
 			break;
-		case 9:
+		case 8:
 			monthInString = "Sep";
 			break;
-		case 10:
+		case 9:
 			monthInString = "Oct";
 			break;
-		case 11:
+		case 10:
 			monthInString = "Nov";
 			break;
-		case 12:
+		case 11:
 			monthInString = "Dec";
 			break;
 		}
