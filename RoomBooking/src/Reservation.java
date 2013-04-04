@@ -12,18 +12,53 @@ public class Reservation {
 	private User user;
 	private Room room;
 		
-	public Reservation(User user, int capacity, String title) {
+	private Reservation(User user, int capacity, String title) {
 		setUser(user);
 		setRoom(capacity);
 		setTitle(title);
 	}
 
+	/**
+	 * Get the name of the person who made the reservation.
+	 * @return A string that specifies the name of the user.
+	 */
 	public User getUser() {
 		return this.user;
 	}
 
+	/**
+	 * Set the user the the reservation.
+	 * @param user Name of the user booking the room.
+	 */
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	/**
+	 * Create a new reservation and assign all associate
+	 * values accordingly.
+	 * @param params The list of parameters/values.
+	 * @return
+	 * @throws Exception
+	 */
+	public static void createReservation(String[] params) {
+//		if (params.length != 9)
+//			throw new Exception("Not enough information was given");
+//		else {
+			User user = new User(params[1]);
+			Reservation reservation = new Reservation(user, Integer.parseInt(params[2]), params[8]);
+			reservation.setReservationDates(params[4], Integer.parseInt(params[5]), Integer.parseInt(params[3]));
+			reservation.setReservationTime(Integer.parseInt(params[6]), Integer.parseInt(params[7]));
+			
+			if (!reservation.room.containReservation(reservation))
+				reservation.room.addReservation(reservation);
+			
+//			if (reservation.room.containReservation(reservation)) {
+//				throw new Exception("Reservation exists. No reservation was done");
+//			} else {
+//				reservation.room.addReservation(reservation);
+//			}
+//		}
 	}
 
 	/**
@@ -33,56 +68,13 @@ public class Reservation {
 	 * @param numWeeks An integer that specifies the number of weeks
 	 * the reservation will be going for.
 	 */
-	public void setReservationDates(String month, int date, int numWeeks) {
+	private void setReservationDates(String month, int date, int numWeeks) {
 		this.startDate = Calendar.getInstance();
-		this.startDate.set(Calendar.MONTH, convertMonth(month));
+		this.startDate.set(Calendar.MONTH, MonthConverter.convertMonthToInt(month));
 		this.startDate.set(Calendar.DATE, date);
 		int numberOfDays = DAYS_IN_WEEKS * numWeeks;
 		this.endDate = startDate;
 		this.endDate.add(Calendar.DATE, numberOfDays);
-	}
-	
-	private int convertMonth(String month) {
-		int monthInNum = 0;
-		switch (month) {
-		case "Jan":
-			monthInNum = Calendar.JANUARY;
-			break;
-		case "Feb":
-			monthInNum = Calendar.FEBRUARY;
-			break;
-		case "Mar":
-			monthInNum = Calendar.MARCH;
-			break;
-		case "Apr":
-			monthInNum = Calendar.APRIL;
-			break;
-		case "May":
-			monthInNum = Calendar.MAY;
-			break;
-		case "Jun":
-			monthInNum = Calendar.JUNE;
-			break;
-		case "Jul":
-			monthInNum = Calendar.JULY;
-			break;
-		case "Aug":
-			monthInNum = Calendar.AUGUST;
-			break;
-		case "Sep":
-			monthInNum = Calendar.SEPTEMBER;
-			break;
-		case "Oct":
-			monthInNum = Calendar.OCTOBER;
-			break;
-		case "Nov":
-			monthInNum = Calendar.NOVEMBER;
-			break;
-		case "Dec":
-			monthInNum = Calendar.DECEMBER;
-			break;
-		}
-		return monthInNum;
 	}
 	
 	/**
@@ -119,6 +111,6 @@ public class Reservation {
 	 * people have to store.
 	 */
 	public void setRoom(int capacity) {
-		this.room = room.findRoom(capacity);
+		this.room = Room.findRoom(capacity);
 	}
 }
