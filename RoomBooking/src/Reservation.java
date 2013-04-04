@@ -1,6 +1,4 @@
 import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
 
 
 public class Reservation {
@@ -53,6 +51,13 @@ public class Reservation {
 			if (!reservation.room.containReservation(reservation))
 				reservation.room.addReservation(reservation);
 			
+			System.out.println(reservation.room.getRoomName() + " is reserved for " +
+							   reservation.user.getName() + " at " +
+							   reservation.getReservationTime() + " for " +
+							   reservation.getReservationDuration() + " hours starting from " +
+							   MonthConverter.convertMonthToString(reservation.getReservationMonth()) + " " +
+							   reservation.getReservationDate() + ".");
+			
 //			if (reservation.room.containReservation(reservation)) {
 //				throw new Exception("Reservation exists. No reservation was done");
 //			} else {
@@ -73,8 +78,16 @@ public class Reservation {
 		this.startDate.set(Calendar.MONTH, MonthConverter.convertMonthToInt(month));
 		this.startDate.set(Calendar.DATE, date);
 		int numberOfDays = DAYS_IN_WEEKS * numWeeks;
-		this.endDate = startDate;
-		this.endDate.add(Calendar.DATE, numberOfDays);
+		this.endDate = Calendar.getInstance();
+		this.endDate.set(Calendar.DATE, startDate.get(Calendar.DATE) + numberOfDays);
+	}
+	
+	public int getReservationDate() {
+		return startDate.get(Calendar.DATE);
+	}
+	
+	public int getReservationMonth() {
+		return startDate.get(Calendar.MONTH);
 	}
 	
 	/**
@@ -85,7 +98,16 @@ public class Reservation {
 	public void setReservationTime(int time, int duration) {
 		this.startTime = Calendar.getInstance();
 		this.startTime.set(Calendar.HOUR_OF_DAY, time);
+		this.endTime = Calendar.getInstance();
 		this.endTime.set(Calendar.HOUR_OF_DAY, startTime.get(Calendar.HOUR_OF_DAY) + duration);
+	}
+	
+	public int getReservationTime() {
+		return startTime.get(Calendar.HOUR_OF_DAY);
+	}
+	
+	public int getReservationDuration() {
+		return endTime.get(Calendar.HOUR_OF_DAY) - startTime.get(Calendar.HOUR_OF_DAY);
 	}
 	
 	/**
@@ -111,6 +133,6 @@ public class Reservation {
 	 * people have to store.
 	 */
 	public void setRoom(int capacity) {
-		this.room = Room.findRoom(capacity);
+		this.room = Room.findRoomByCapacity(capacity);
 	}
 }
