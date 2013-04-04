@@ -24,7 +24,7 @@ public class RoomBookingSystem {
 					Reservation.createReservation(params);
 					break;
 				case "Change":
-					
+					Reservation.changeReservation(params);
 					break;
 				case "Delete":
 					Reservation.deleteReservation(params);
