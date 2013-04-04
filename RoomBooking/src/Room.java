@@ -106,8 +106,22 @@ public class Room {
 		return null;
 	}
 	
-	public static void printReservations(Room room) {
-		if (containRoom(room)) {
+	/**
+	 * Find a room with a matching name.
+	 * @param roomName A string that defines the name of the room.
+	 * @return The room with the matching name.
+	 */
+	public static Room findRoomByName(String roomName) {
+		for (Room r : rooms) {
+			if (r.roomName.equals(roomName))
+				return r;
+		}
+		return null;
+	}
+	
+	public static void printReservations(String name) {
+		Room room = findRoomByName(name);
+		if (room != null) {
 			for (Reservation booking : room.reservations) {
 				System.out.print(booking.getUser() + " ");
 				System.out.print(MonthConverter.convertMonthToString(booking.getReservationMonth()) + " ");
