@@ -86,9 +86,29 @@ public class Room {
 		return false;
 	}
 	
+	/**
+	 * This method verifies if a given reservation exists
+	 * for the room assigned.
+	 * @param reservation The reservation slot that is needed
+	 * to verify.
+	 * @return True if the room has been booked out for the given
+	 * reservation slot, False otherwise.
+	 */
 	public boolean containReservation(Reservation reservation) {
-		
-		
+		// Only checks for the date and time of the reservation.
+		// As it does not really matter who booked the time slot or
+		// what the time slot was booked for.
+		// Use 'AND' because all these have to be the same
+		// for the time slot to be booked away, else the time slot
+		// is available.
+		for (Reservation booking : this.reservations) {
+			if (booking.getReservationMonth() == reservation.getReservationMonth() &&
+				booking.getReservationDate() == reservation.getReservationDate() &&
+				booking.getReservationTime() == reservation.getReservationTime() &&
+				booking.getReservationDuration() == reservation.getReservationDuration()) {
+				return true;
+			}
+		}
 		return false;
 	}
 	
