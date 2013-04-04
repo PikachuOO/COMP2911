@@ -23,6 +23,12 @@ public class RoomBookingSystem {
 				case "Book":
 					Reservation.createReservation(params);
 					break;
+				case "Change":
+					
+					break;
+				case "Delete":
+					
+					break;
 				case "Print":
 					Room.printReservations(params[1]);
 					break;
