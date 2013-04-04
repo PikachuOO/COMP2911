@@ -116,10 +116,20 @@ public class Reservation {
 		this.endTime.set(Calendar.HOUR_OF_DAY, startTime.get(Calendar.HOUR_OF_DAY) + duration);
 	}
 	
+	/**
+	 * Get the start time of the reservation.
+	 * The time is in 24 hour mode.
+	 * @return An integer that specifies the time.
+	 */
 	public int getReservationTime() {
 		return startTime.get(Calendar.HOUR_OF_DAY);
 	}
 	
+	/**
+	 * Get the number of hours for the reservation.
+	 * @return AN integer that specifies the number
+	 * of hours in the reservation.
+	 */
 	public int getReservationDuration() {
 		return endTime.get(Calendar.HOUR_OF_DAY) - startTime.get(Calendar.HOUR_OF_DAY);
 	}
