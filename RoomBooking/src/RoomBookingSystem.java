@@ -2,9 +2,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-
 public class RoomBookingSystem {
-	public static void main(String args[]) {
+	public static void main(String args[]) {		
 		try {
 			Scanner inputScanner = new Scanner(new File("src/inputs.txt"));
 			while (inputScanner.hasNext()) {
@@ -30,7 +29,7 @@ public class RoomBookingSystem {
 					Reservation.deleteReservation(params);
 					break;
 				case "Print":
-					Room.printReservations(params[1]);
+					Printer.printReservations(params[1]);
 					break;
 				}
 			}
