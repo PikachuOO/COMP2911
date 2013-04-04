@@ -22,11 +22,15 @@ public class Room {
 	}
 	
 	public void addReservation(Reservation reservation) {
-		reservations.add(reservation);
+		getReservations().add(reservation);
 	}
 	
 	public void removeReservation(Reservation reservation) {
-		reservations.remove(reservation);
+		getReservations().remove(reservation);
+	}
+	
+	public LinkedList<Reservation> getReservations() {
+		return this.reservations;
 	}
 	
 	/**
@@ -74,7 +78,7 @@ public class Room {
 		// Use 'AND' because all these have to be the same
 		// for the time slot to be booked away, else the time slot
 		// is available.
-		for (Reservation booking : this.reservations) {
+		for (Reservation booking : this.getReservations()) {
 			if (booking.getReservationMonth() == reservation.getReservationMonth() &&
 				booking.getReservationDate() == reservation.getReservationDate() &&
 				booking.getReservationTime() == reservation.getReservationTime()) {
@@ -98,7 +102,7 @@ public class Room {
 	 * @return The reservation with the matching values.
 	 */
 	public Reservation findReservation(User user, int month, int date, int time) {
-		for (Reservation booking : this.reservations) {
+		for (Reservation booking : this.getReservations()) {
 			if (booking.getUser().getName().equals(user.getName()) &&
 				booking.getReservationMonth() == month &&
 				booking.getReservationDate() == date &&
@@ -146,7 +150,7 @@ public class Room {
 	public static void printReservations(String name) {
 		Room room = findRoomByName(name);
 		if (room != null) {
-			for (Reservation booking : room.reservations) {
+			for (Reservation booking : room.getReservations()) {
 				System.out.print(booking.getUser().getName() + " ");
 				System.out.print(MonthConverter.convertMonthToString(booking.getReservationMonth()) + " ");
 				System.out.print(booking.getReservationDate() + " ");
