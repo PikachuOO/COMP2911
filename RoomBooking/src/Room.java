@@ -17,8 +17,7 @@ public class Room {
 			rooms.add(room);
 		else
 			throw new Exception("Room has been added");
-		System.out.println("Room " + name + " assigned");
-		System.out.println(rooms.size() + " rooms have been assigned.");
+		Printer.writeToFile("Room " + name + " assigned");
 	}
 	
 	public void addReservation(Reservation reservation) {
@@ -137,28 +136,6 @@ public class Room {
 				return r;
 		}
 		return null;
-	}
-	
-	/**
-	 * Print all the existing reservation for a give room name.
-	 * This method prints the user of the reservation, the month and date
-	 * when the reservation starts, and the time and number of hours
-	 * the reservation lasts for.
-	 * @param name A string that specifies the name of the room
-	 * for which its reservations are to be printed.
-	 */
-	public static void printReservations(String name) {
-		Room room = findRoomByName(name);
-		if (room != null) {
-			for (Reservation booking : room.getReservations()) {
-				System.out.print(booking.getUser().getName() + " ");
-				System.out.print(MonthConverter.convertMonthToString(booking.getReservationMonth()) + " ");
-				System.out.print(booking.getReservationDate() + " ");
-				System.out.print(booking.getReservationTime() + " ");
-				System.out.print(booking.getReservationDuration() + " ");
-				System.out.println(booking.getTitle());
-			}
-		}
 	}
 	
 	/**
