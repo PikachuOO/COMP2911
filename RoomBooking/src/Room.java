@@ -19,7 +19,7 @@ public class Room {
 	}
 	
 	public void addReservation(Reservation reservation) {
-//		reservations.add(reservation);
+		reservations.add(reservation);
 	}
 	
 	/**
@@ -98,12 +98,25 @@ public class Room {
 	 * it can store.
 	 * @return The room that matches the requirement.
 	 */
-	public static Room findRoom(int capacity) {
+	public static Room findRoomByCapacity(int capacity) {
 		for (Room r : rooms) {
 			if (r.capacity >= capacity)
 				return r;
 		}
 		return null;
+	}
+	
+	public static void printReservations(Room room) {
+		if (containRoom(room)) {
+			for (Reservation booking : room.reservations) {
+				System.out.print(booking.getUser() + " ");
+				System.out.print(MonthConverter.convertMonthToString(booking.getReservationMonth()) + " ");
+				System.out.print(booking.getReservationDate() + " ");
+				System.out.print(booking.getReservationTime() + " ");
+				System.out.print(booking.getReservationDuration() + " ");
+				System.out.println(booking.getTitle());
+			}
+		}
 	}
 
 	private static final LinkedList<Room> rooms = new LinkedList<Room>();
