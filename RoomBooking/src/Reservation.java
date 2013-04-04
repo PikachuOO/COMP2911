@@ -77,15 +77,29 @@ public class Reservation {
 		this.startDate = Calendar.getInstance();
 		this.startDate.set(Calendar.MONTH, MonthConverter.convertMonthToInt(month));
 		this.startDate.set(Calendar.DATE, date);
-		int numberOfDays = DAYS_IN_WEEKS * numWeeks;
+		int numberOfDays = DAYS_IN_WEEKS * numWeeks - 1;;
 		this.endDate = Calendar.getInstance();
-		this.endDate.set(Calendar.DATE, startDate.get(Calendar.DATE) + numberOfDays);
+		this.endDate.set(Calendar.MONTH, startDate.get(Calendar.MONTH));
+		this.endDate.set(Calendar.DATE, startDate.get(Calendar.DATE));
+		this.endDate.add(Calendar.DATE, numberOfDays);
 	}
 	
+	/**
+	 * This method returns the start date of the
+	 * reservation.
+	 * @return An integer that specifies the date.
+	 */
 	public int getReservationDate() {
 		return startDate.get(Calendar.DATE);
 	}
 	
+	/**
+	 * This method returns the start month of the reservation.
+	 * @return An integer that specifies the month.
+	 * Note that this function returns an integer where 'January'
+	 *  is equal to 0, 'February' is equal to 1. Hence, it is recommended
+	 *  to use the conversion method in MonthConverter.
+	 */
 	public int getReservationMonth() {
 		return startDate.get(Calendar.MONTH);
 	}
