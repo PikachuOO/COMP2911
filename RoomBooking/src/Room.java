@@ -97,7 +97,8 @@ public class Room {
 	public boolean containReservation(Reservation reservation) {
 		// Only checks for the date and time of the reservation.
 		// As it does not really matter who booked the time slot or
-		// what the time slot was booked for.
+		// what the time slot was booked for. So is the duration as
+		// the start time of the slot tells us an overlap occurs.
 		// Use 'AND' because all these have to be the same
 		// for the time slot to be booked away, else the time slot
 		// is available.
