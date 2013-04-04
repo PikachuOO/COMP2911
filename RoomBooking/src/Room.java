@@ -3,51 +3,7 @@ import java.util.LinkedList;
 
 
 public class Room {
-	private int capacity;
-	private String roomName;
-	private LinkedList<Reservation> reservations;
 	
-	/**
-	 * Construct a Room object with it's name and capacity specified.
-	 * @param capacity the number of people a room can store.
-	 * @param name the name of the room.
-	 */
-	private Room(int capacity, String name) {
-		setCapacity(capacity);
-		setRoomName(name);
-		reservations = new LinkedList<Reservation>();
-	}
-	
-	public void addReservation(Reservation reservation) {
-		reservations.add(reservation);
-	}
-	
-	/**
-	 * Get capacity of the current room object.
-	 * @return An integer that defines the capacity of the room.
-	 */
-	public int getCapacity() {
-		return capacity;
-	}
-
-	/**
-	 * Set capacity of the current room object.
-	 * @param capacity An integer that defines the capacity to be
-	 * set to the room.
-	 */
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
-	}
-
-	/**
-	 * Set name of the room.
-	 * @param roomName an input String as the name of the room
-	 * to be set.
-	 */
-	public void setRoomName(String roomName) {
-		this.roomName = roomName;
-	}
-
 	/**
 	 * Create a room object and add room into the list of rooms.
 	 * @param capacity An integer that specifies the number of people 
@@ -63,6 +19,22 @@ public class Room {
 			throw new Exception("Room has been added");
 		System.out.println("Room " + name + " assigned");
 		System.out.println(rooms.size() + " rooms have been assigned.");
+	}
+	
+	public void addReservation(Reservation reservation) {
+		reservations.add(reservation);
+	}
+	
+	public void removeReservation(Reservation reservation) {
+		reservations.remove(reservation);
+	}
+	
+	/**
+	 * Get capacity of the current room object.
+	 * @return An integer that defines the capacity of the room.
+	 */
+	public int getCapacity() {
+		return capacity;
 	}
 	
 	/**
@@ -113,6 +85,30 @@ public class Room {
 	}
 	
 	/**
+	 * Find the reservation from the list of reservations
+	 * of the room that calls the function.
+	 * @param user A string that specifies the name of
+	 * the user who booked the time slot.
+	 * @param month An integer that specifies the month of
+	 * the reservation.
+	 * @param date An integer that specifies the date of
+	 * the reservation.
+	 * @param time An integer that specifies the start time of
+	 * the reservation.
+	 * @return The reservation with the matching values.
+	 */
+	public Reservation findReservation(User user, int month, int date, int time) {
+		for (Reservation booking : this.reservations) {
+			if (booking.getUser().getName().equals(user.getName()) &&
+				booking.getReservationMonth() == month &&
+				booking.getReservationDate() == date &&
+				booking.getReservationTime() == time)
+				return booking;		
+		}
+		return null;
+	}
+	
+	/**
 	 * Find a room with a matching capacity.
 	 * @param capacity An integer that defines the number of people
 	 * it can store.
@@ -160,6 +156,39 @@ public class Room {
 			}
 		}
 	}
+	
+	/**
+	 * Construct a Room object with it's name and capacity specified.
+	 * @param capacity the number of people a room can store.
+	 * @param name the name of the room.
+	 */
+	private Room(int capacity, String name) {
+		setCapacity(capacity);
+		setRoomName(name);
+		reservations = new LinkedList<Reservation>();
+	}
+	
+	/**
+	 * Set capacity of the current room object.
+	 * @param capacity An integer that defines the capacity to be
+	 * set to the room.
+	 */
+	private void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
+
+	/**
+	 * Set name of the room.
+	 * @param roomName an input String as the name of the room
+	 * to be set.
+	 */
+	private void setRoomName(String roomName) {
+		this.roomName = roomName;
+	}
+
+	private int capacity;
+	private String roomName;
+	private LinkedList<Reservation> reservations;
 
 	private static final LinkedList<Room> rooms = new LinkedList<Room>();
 }
