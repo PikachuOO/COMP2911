@@ -59,6 +59,7 @@ public class Reservation {
 					MonthConverter.convertMonthToInt(params[4]), Integer.parseInt(params[5]), 
 					Integer.parseInt(params[6]));
 			room.removeReservation(booking);
+			Printer.writeToFile("Reservations deleted");
 		}
 	}
 	
