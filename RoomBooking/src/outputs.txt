@@ -1,0 +1,11 @@
+Room 201B assigned
+Room 302 assigned
+Room 401K assigned
+Room 113 assigned
+Reservations deleted
+201B
+Bill Mar 6 15 2 Tutorial
+Bill Mar 20 15 2 Tutorial
+Alan Apr 2 12 3 Project
+Alan Apr 9 12 3 Project
+Alan Apr 16 12 3 Project
