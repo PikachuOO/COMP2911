@@ -21,7 +21,14 @@ public class RoomBookingSystem {
 					}
 					break;
 				case "Book":
-					
+					Reservation.createReservation(params);
+//					try {
+//						Reservation.createReservation(params);
+//					} catch (NumberFormatException e) {
+//						e.printStackTrace();
+//					} catch (Exception e) {
+//						System.out.println("Invalid inputs. Nothing was done");
+//					}
 					break;
 				}
 			}
