@@ -104,8 +104,7 @@ public class Room {
 		for (Reservation booking : this.reservations) {
 			if (booking.getReservationMonth() == reservation.getReservationMonth() &&
 				booking.getReservationDate() == reservation.getReservationDate() &&
-				booking.getReservationTime() == reservation.getReservationTime() &&
-				booking.getReservationDuration() == reservation.getReservationDuration()) {
+				booking.getReservationTime() == reservation.getReservationTime()) {
 				return true;
 			}
 		}
