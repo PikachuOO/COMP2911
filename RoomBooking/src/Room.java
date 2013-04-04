@@ -86,7 +86,7 @@ public class Room {
 		return false;
 	}
 	
-	public static boolean containReservation(Reservation reservation) {
+	public boolean containReservation(Reservation reservation) {
 		
 		
 		return false;
@@ -98,12 +98,18 @@ public class Room {
 	 * it can store.
 	 * @return The room that matches the requirement.
 	 */
-	public Room findRoom(int capacity) {
-		Iterator<Room> iterator = rooms.iterator();
-		while (iterator.hasNext())
-			if (iterator.next().getCapacity() >= capacity)
-				return iterator.next();
+	public static Room findRoom(int capacity) {
+		for (Room r : rooms) {
+			if (r.capacity >= capacity)
+				return r;
+		}
 		return null;
+//		Iterator<Room> iterator = rooms.iterator();
+//		while (iterator.hasNext()) {
+//			if (iterator.next().getCapacity() >= capacity)
+//				return iterator;
+//		}
+//		return null;
 	}
 
 	private static final LinkedList<Room> rooms = new LinkedList<Room>();
