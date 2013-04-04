@@ -5,7 +5,7 @@ public class Reservation {
 
 	private static final int DAYS_IN_WEEKS = 7;
 	private String title;
-	private Calendar startDate, endDate;
+	private Calendar reservationDate;
 	private Calendar startTime, endTime;
 	private User user;
 	private Room room;
@@ -40,30 +40,17 @@ public class Reservation {
 	 * @throws Exception
 	 */
 	public static void createReservation(String[] params) {
-//		if (params.length != 9)
-//			throw new Exception("Not enough information was given");
-//		else {
-			User user = new User(params[1]);
+		User user = new User(params[1]);
+		
+		for (int i = 0; i < Integer.parseInt(params[3]); i++) {
 			Reservation reservation = new Reservation(user, Integer.parseInt(params[2]), params[8]);
-			reservation.setReservationDates(params[4], Integer.parseInt(params[5]), Integer.parseInt(params[3]));
 			reservation.setReservationTime(Integer.parseInt(params[6]), Integer.parseInt(params[7]));
-			
+			reservation.setReservationDates(params[4], Integer.parseInt(params[5]), i);
 			if (!reservation.room.containReservation(reservation))
 				reservation.room.addReservation(reservation);
-			
-			System.out.println(reservation.room.getRoomName() + " is reserved for " +
-							   reservation.user.getName() + " at " +
-							   reservation.getReservationTime() + " for " +
-							   reservation.getReservationDuration() + " hours starting from " +
-							   MonthConverter.convertMonthToString(reservation.getReservationMonth()) + " " +
-							   reservation.getReservationDate() + ".");
-			
-//			if (reservation.room.containReservation(reservation)) {
-//				throw new Exception("Reservation exists. No reservation was done");
-//			} else {
-//				reservation.room.addReservation(reservation);
-//			}
-//		}
+			else
+				System.out.println("Time slot reserved. No reservation was made.");
+		}
 	}
 
 	/**
@@ -73,15 +60,11 @@ public class Reservation {
 	 * @param numWeeks An integer that specifies the number of weeks
 	 * the reservation will be going for.
 	 */
-	private void setReservationDates(String month, int date, int numWeeks) {
-		this.startDate = Calendar.getInstance();
-		this.startDate.set(Calendar.MONTH, MonthConverter.convertMonthToInt(month));
-		this.startDate.set(Calendar.DATE, date);
-		int numberOfDays = DAYS_IN_WEEKS * numWeeks - 1;;
-		this.endDate = Calendar.getInstance();
-		this.endDate.set(Calendar.MONTH, startDate.get(Calendar.MONTH));
-		this.endDate.set(Calendar.DATE, startDate.get(Calendar.DATE));
-		this.endDate.add(Calendar.DATE, numberOfDays);
+	private void setReservationDates(String month, int date, int n) {
+		this.reservationDate = Calendar.getInstance();
+		int numDays = DAYS_IN_WEEKS * n;
+		this.reservationDate.set(Calendar.MONTH, MonthConverter.convertMonthToInt(month));
+		this.reservationDate.set(Calendar.DATE, date + numDays);
 	}
 	
 	/**
@@ -90,7 +73,7 @@ public class Reservation {
 	 * @return An integer that specifies the date.
 	 */
 	public int getReservationDate() {
-		return startDate.get(Calendar.DATE);
+		return reservationDate.get(Calendar.DATE);
 	}
 	
 	/**
@@ -101,7 +84,7 @@ public class Reservation {
 	 *  to use the conversion method in MonthConverter.
 	 */
 	public int getReservationMonth() {
-		return startDate.get(Calendar.MONTH);
+		return reservationDate.get(Calendar.MONTH);
 	}
 	
 	/**
