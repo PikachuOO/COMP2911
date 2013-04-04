@@ -104,12 +104,6 @@ public class Room {
 				return r;
 		}
 		return null;
-//		Iterator<Room> iterator = rooms.iterator();
-//		while (iterator.hasNext()) {
-//			if (iterator.next().getCapacity() >= capacity)
-//				return iterator;
-//		}
-//		return null;
 	}
 
 	private static final LinkedList<Room> rooms = new LinkedList<Room>();
