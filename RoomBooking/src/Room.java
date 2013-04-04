@@ -119,11 +119,19 @@ public class Room {
 		return null;
 	}
 	
+	/**
+	 * Print all the existing reservation for a give room name.
+	 * This method prints the user of the reservation, the month and date
+	 * when the reservation starts, and the time and number of hours
+	 * the reservation lasts for.
+	 * @param name A string that specifies the name of the room
+	 * for which its reservations are to be printed.
+	 */
 	public static void printReservations(String name) {
 		Room room = findRoomByName(name);
 		if (room != null) {
 			for (Reservation booking : room.reservations) {
-				System.out.print(booking.getUser() + " ");
+				System.out.print(booking.getUser().getName() + " ");
 				System.out.print(MonthConverter.convertMonthToString(booking.getReservationMonth()) + " ");
 				System.out.print(booking.getReservationDate() + " ");
 				System.out.print(booking.getReservationTime() + " ");
