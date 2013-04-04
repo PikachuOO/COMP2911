@@ -3,35 +3,6 @@ import java.util.Calendar;
 
 public class Reservation {
 
-	private static final int DAYS_IN_WEEKS = 7;
-	private String title;
-	private Calendar reservationDate;
-	private Calendar startTime, endTime;
-	private User user;
-	private Room room;
-		
-	private Reservation(User user, int capacity, String title) {
-		setUser(user);
-		setRoom(capacity);
-		setTitle(title);
-	}
-
-	/**
-	 * Get the name of the person who made the reservation.
-	 * @return A string that specifies the name of the user.
-	 */
-	public User getUser() {
-		return this.user;
-	}
-
-	/**
-	 * Set the user the the reservation.
-	 * @param user Name of the user booking the room.
-	 */
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
 	/**
 	 * Create a new reservation and assign all associate
 	 * values accordingly.
@@ -52,19 +23,13 @@ public class Reservation {
 				System.out.println("Time slot reserved. No reservation was made.");
 		}
 	}
-
+	
 	/**
-	 * Set the dates of reservation for the duration.
-	 * @param month An integer that specifies the month of the year.
-	 * @param date An integer that specifies the date of the month.
-	 * @param numWeeks An integer that specifies the number of weeks
-	 * the reservation will be going for.
+	 * Get the name of the person who made the reservation.
+	 * @return A string that specifies the name of the user.
 	 */
-	private void setReservationDates(String month, int date, int n) {
-		this.reservationDate = Calendar.getInstance();
-		int numDays = DAYS_IN_WEEKS * n;
-		this.reservationDate.set(Calendar.MONTH, MonthConverter.convertMonthToInt(month));
-		this.reservationDate.set(Calendar.DATE, date + numDays);
+	public User getUser() {
+		return this.user;
 	}
 	
 	/**
@@ -88,18 +53,6 @@ public class Reservation {
 	}
 	
 	/**
-	 * Set the time of reservation.
-	 * @param time An integer that specifies the start time of the reservation.
-	 * @param duration An integer that specifies the number of hours.
-	 */
-	public void setReservationTime(int time, int duration) {
-		this.startTime = Calendar.getInstance();
-		this.startTime.set(Calendar.HOUR_OF_DAY, time);
-		this.endTime = Calendar.getInstance();
-		this.endTime.set(Calendar.HOUR_OF_DAY, startTime.get(Calendar.HOUR_OF_DAY) + duration);
-	}
-	
-	/**
 	 * Get the start time of the reservation.
 	 * The time is in 24 hour mode.
 	 * @return An integer that specifies the time.
@@ -117,15 +70,7 @@ public class Reservation {
 		return endTime.get(Calendar.HOUR_OF_DAY) - startTime.get(Calendar.HOUR_OF_DAY);
 	}
 	
-	/**
-	 * Set the title of the reservation
-	 * @param title A string that defines the name of
-	 * the reservation.
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	
+
 	/**
 	 * Get the title of the reservation
 	 * @return A string of the name of the reservation
@@ -134,12 +79,68 @@ public class Reservation {
 		return this.title;
 	}
 	
+	private static final int DAYS_IN_WEEKS = 7;
+	private String title;
+	private Calendar reservationDate;
+	private Calendar startTime, endTime;
+	private User user;
+	private Room room;
+		
+	private Reservation(User user, int capacity, String title) {
+		setUser(user);
+		setRoom(capacity);
+		setTitle(title);
+	}
+
+	/**
+	 * Set the user the the reservation.
+	 * @param user Name of the user booking the room.
+	 */
+	private void setUser(User user) {
+		this.user = user;
+	}
+
+	/**
+	 * Set the dates of reservation for the duration.
+	 * @param month An integer that specifies the month of the year.
+	 * @param date An integer that specifies the date of the month.
+	 * @param numWeeks An integer that specifies the number of weeks
+	 * the reservation will be going for.
+	 */
+	private void setReservationDates(String month, int date, int n) {
+		this.reservationDate = Calendar.getInstance();
+		int numDays = DAYS_IN_WEEKS * n;
+		this.reservationDate.set(Calendar.MONTH, MonthConverter.convertMonthToInt(month));
+		this.reservationDate.set(Calendar.DATE, date + numDays);
+	}
+	
+	/**
+	 * Set the time of reservation.
+	 * @param time An integer that specifies the start time of the reservation.
+	 * @param duration An integer that specifies the number of hours.
+	 */
+	private void setReservationTime(int time, int duration) {
+		this.startTime = Calendar.getInstance();
+		this.startTime.set(Calendar.HOUR_OF_DAY, time);
+		this.endTime = Calendar.getInstance();
+		this.endTime.set(Calendar.HOUR_OF_DAY, startTime.get(Calendar.HOUR_OF_DAY) + duration);
+	}
+	
+	/**
+	 * Set the title of the reservation
+	 * @param title A string that defines the name of
+	 * the reservation.
+	 */
+	private void setTitle(String title) {
+		this.title = title;
+	}
+		
 	/**
 	 * Get the room with a fitting capacity.
 	 * @param capacity An integer that specifies the number of
 	 * people have to store.
 	 */
-	public void setRoom(int capacity) {
+	private void setRoom(int capacity) {
 		this.room = Room.findRoomByCapacity(capacity);
 	}
 }
