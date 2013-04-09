@@ -10,9 +10,9 @@ public class MailSystemTester
    {
       MailSystem system = new MailSystem(MAILBOX_COUNT);
       Scanner console = new Scanner(System.in);
-      TelephoneManager p = new TelephoneManager(console);
-      Connection c = new Connection(system, p);
-      p.run(c);
+      TelephoneManager p = new TelephoneManager(console, system);
+      //Connection c = new Connection(system, p);
+      p.run();
    }
 
    private static final int MAILBOX_COUNT = 20;

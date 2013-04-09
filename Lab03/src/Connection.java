@@ -10,11 +10,21 @@ public class Connection
       @param s a MailSystem object
       @param p a Telephone object
    */
-   public Connection(MailSystem s, TelephoneManager p)
+	
+   public Connection(MailSystem s, TelephoneManager p, int id)
    {
       system = s;
       phone = p;
       resetConnection();
+      this.id = id;
+   }
+   
+  /* public void setId(String anId) {
+	   this.id = anId;
+   }*/
+   
+   public int getId() {
+	   return this.id;
    }
 
    /**
@@ -205,6 +215,7 @@ public class Connection
    private String accumulatedKeys;
    private TelephoneManager phone;
    private int state;
+   private int id;
 
    private static final int DISCONNECTED = 0;
    private static final int CONNECTED = 1;
