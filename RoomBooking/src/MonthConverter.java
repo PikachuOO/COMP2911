@@ -3,89 +3,76 @@ import java.util.Calendar;
 
 public class MonthConverter {
 
+	/**
+	 * Convert the month input from the original input text file
+	 * the the associated value using Calendar. This is used for
+	 * easy month and date calculation.
+	 * @param month The 'month' string from the original input text file.
+	 * @return The value associated with the input 'month' string.
+	 */
 	public static int convertMonthToInt(String month) {
 		int monthInNum = 0;
-		switch (month) {
-		case "Jan":
+		if (month.equals("Jan"))
 			monthInNum = Calendar.JANUARY;
-			break;
-		case "Feb":
+		else if (month.equals("Feb"))
 			monthInNum = Calendar.FEBRUARY;
-			break;
-		case "Mar":
+		else if (month.equals("Mar"))
 			monthInNum = Calendar.MARCH;
-			break;
-		case "Apr":
+		else if (month.equals("Apr"))
 			monthInNum = Calendar.APRIL;
-			break;
-		case "May":
+		else if (month.equals("May"))
 			monthInNum = Calendar.MAY;
-			break;
-		case "Jun":
+		else if (month.equals("Jun"))
 			monthInNum = Calendar.JUNE;
-			break;
-		case "Jul":
+		else if (month.equals("Jul"))
 			monthInNum = Calendar.JULY;
-			break;
-		case "Aug":
+		else if (month.equals("Aug"))
 			monthInNum = Calendar.AUGUST;
-			break;
-		case "Sep":
+		else if (month.equals("Sep"))
 			monthInNum = Calendar.SEPTEMBER;
-			break;
-		case "Oct":
+		else if (month.equals("Oct"))
 			monthInNum = Calendar.OCTOBER;
-			break;
-		case "Nov":
+		else if (month.equals("Nov"))
 			monthInNum = Calendar.NOVEMBER;
-			break;
-		case "Dec":
+		else if (month.equals("Dec"))
 			monthInNum = Calendar.DECEMBER;
-			break;
-		}
 		return monthInNum;
 	}
 	
+	/**
+	 * Given a value from the Calendar class, convert it into the
+	 * name of the month in 3-letter convention. E.g. at parameter 
+	 * equals Calendar.JANUARY, this method will return "Jan".
+	 * @param month The integer that defines the value of a month.
+	 * @return The string with the associated month value converted from
+	 * Calendar.
+	 */
 	public static String convertMonthToString(int month) {
 		String monthInString = "";
-		switch (month) {
-		case 0:
+		if (month == Calendar.JANUARY)
 			monthInString = "Jan";
-			break;
-		case 1:
+		else if (month == Calendar.FEBRUARY)
 			monthInString = "Feb";
-			break;
-		case 2:
+		else if (month == Calendar.MARCH)
 			monthInString = "Mar";
-			break;
-		case 3:
+		else if (month == Calendar.APRIL)
 			monthInString = "Apr";
-			break;
-		case 4:
+		else if (month == Calendar.MAY)
 			monthInString = "May";
-			break;
-		case 5:
-			monthInString = "June";
-			break;
-		case 6:
-			monthInString = "July";
-			break;
-		case 7:
+		else if (month == Calendar.JUNE)
+			monthInString = "Jun";
+		else if (month == Calendar.JULY)
+			monthInString = "Jul";
+		else if (month == Calendar.AUGUST)
 			monthInString = "Aug";
-			break;
-		case 8:
+		else if (month == Calendar.SEPTEMBER)
 			monthInString = "Sep";
-			break;
-		case 9:
+		else if (month == Calendar.OCTOBER)
 			monthInString = "Oct";
-			break;
-		case 10:
+		else if (month == Calendar.NOVEMBER)
 			monthInString = "Nov";
-			break;
-		case 11:
+		else if (month == Calendar.DECEMBER)
 			monthInString = "Dec";
-			break;
-		}
 		return monthInString;
 	}
 }
