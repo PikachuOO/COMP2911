@@ -6,11 +6,12 @@ public class RoomBookingSystem {
 	public static void main(String args[]) {		
 		try {
 			Scanner inputScanner = new Scanner(new File("src/inputs.txt"));
+//			Scanner inputScanner = new Scanner(new File(args[0]));
+//			File output = new File(args[1]);
 			while (inputScanner.hasNext()) {
 				String s = inputScanner.nextLine();
 				String[] params = s.split(" ");
-				switch (params[0]) {
-				case "Room":
+				if (params[0].equals("Room")) {
 					try {
 						Room.createRoom(Integer.parseInt(params[1]), params[2]);
 					} catch (NumberFormatException e) {
@@ -18,23 +19,17 @@ public class RoomBookingSystem {
 					} catch (Exception e) {
 						System.out.println("Sorry, room added. Hence, skipped.");
 					}
-					break;
-				case "Book":
+				} else if (params[0].equals("Book")) {
 					Reservation.createReservation(params);
-					break;
-				case "Change":
+				} else if (params[0].equals("Change")) {
 					Reservation.changeReservation(params);
-					break;
-				case "Delete":
+				} else if (params[0].equals("Delete")) {
 					Reservation.deleteReservation(params);
-					break;
-				case "Print":
+				} else if (params[0].equals("Print")) {
 					Printer.printReservations(params[1]);
-					break;
 				}
 			}
 			inputScanner.close();
-			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
