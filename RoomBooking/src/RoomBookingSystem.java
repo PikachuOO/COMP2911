@@ -4,29 +4,26 @@ import java.util.ListIterator;
 import java.util.Scanner;
 
 public class RoomBookingSystem {
+	
 	public static void main(String args[]) {		
 		try {
 			Scanner inputScanner = new Scanner(new File(args[0]));
-			File output = new File(args[1]);
-			if (output.exists()) {
-				output.delete();
-			}
 			
 			while (inputScanner.hasNext()) {
 				String s = inputScanner.nextLine();
 				String[] params = s.split(" ");
 				if (params[0].equals("Room")) {
 					RoomInputs inputs = new RoomInputs(params);
-					Room.createRoom(inputs, output);
+					Room.createRoom(inputs);
 				} else if (params[0].equals("Book")) {
-					book(params, output);
+					book(params);
 				} else if (params[0].equals("Change")) {
-					change(params, output);
+					change(params);
 				} else if (params[0].equals("Delete")) {
 					DeleteInputs inputs = new DeleteInputs(params);
-					Reservation.deleteReservation(inputs, output);
+					Reservation.deleteReservation(inputs);
 				} else if (params[0].equals("Print")) {
-					Printer.printReservations(params[1], output);
+					Room.printReservations(params[1]);
 				}
 			}
 			inputScanner.close();
@@ -36,7 +33,7 @@ public class RoomBookingSystem {
 		}
 	}
 	
-	private static void book(String[] params, File output) {
+	private static void book(String[] params) {
 		ListIterator<Room> i = Room.getAllRooms().listIterator();
 		Room room;
 		BookingInputs inputs = new BookingInputs(params);
@@ -46,14 +43,14 @@ public class RoomBookingSystem {
 			if(room.getCapacity() >= inputs.getCapacity()) {
 				if(!room.foundReservations(inputs.getMonth(), 
 						inputs.getDate(), inputs.getTime(), inputs.getNumWeeks())) {
-					Reservation.createReservation(inputs, output);
+					Reservation.createReservation(inputs);
 					break;
 				}
 			}
 		}
 	}
 	
-	private static void change(String[] params, File output) {
+	private static void change(String[] params) {
 		ChangeInputs cInputs= new ChangeInputs(params);
 		String[] deleteParams = {"Delete", params[1], params[2],
 				params[3], params[4], params[5], params[6]};
@@ -63,6 +60,6 @@ public class RoomBookingSystem {
 				params[11], params[12]};
 		BookingInputs bInputs = new BookingInputs(bookingParams);
 		
-		Reservation.changeReservation(cInputs, dInputs, bInputs, output);
+		Reservation.changeReservation(cInputs, dInputs, bInputs);
 	}
 }

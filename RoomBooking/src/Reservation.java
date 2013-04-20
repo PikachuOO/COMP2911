@@ -9,7 +9,7 @@ public class Reservation {
 	 * values accordingly.
 	 * @param params The list of parameters/values.
 	 */
-	public static void createReservation(BookingInputs inputs, File output) {
+	public static void createReservation(BookingInputs inputs) {
 		User user = inputs.getUser();
 		Reservation reservation = new Reservation(user, inputs.getCapacity(), inputs.getTitle());
 		
@@ -37,12 +37,12 @@ public class Reservation {
 	 * @param params A list of the values needed for changes to be made.
 	 */
 	public static void changeReservation(ChangeInputs cInputs, DeleteInputs dInputs,
-			BookingInputs bInputs, File output) {
+			BookingInputs bInputs) {
 		// Assign parameters to associate constants	
-		deleteReservation(dInputs, output);
+		deleteReservation(dInputs);
 
 		if (deleted) {
-			createReservation(bInputs, output);
+			createReservation(bInputs);
 			deleted = false;
 		} else
 //			Printer.writeToFile(cInputs.getUser().getName() + "'s reservation for " +
@@ -61,7 +61,7 @@ public class Reservation {
 	 * @param params A list of values that specify the room
 	 * of reservation, the time and date of reservation.
 	 */
-	public static void deleteReservation(DeleteInputs inputs, File output) {
+	public static void deleteReservation(DeleteInputs inputs) {
 		Room room = Room.findRoomByName(inputs.getRoom());
 		int duration = inputs.getNumWeeks();
 		int date = inputs.getDate();
@@ -79,7 +79,7 @@ public class Reservation {
 				room.removeReservation(booking);
 			}
 			System.out.println("Reservations deleted");
-			Printer.writeToFile("Reservations deleted", output);
+//			Printer.writeToFile("Reservations deleted", output);
 			deleted = true;
 		} else
 //			Printer.writeToFile("Deletion for " + inputs.getUser().getName() + 

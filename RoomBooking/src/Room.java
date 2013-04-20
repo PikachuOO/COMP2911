@@ -15,7 +15,7 @@ public class Room {
 	 * @param name A String that specifies the name of the room.
 	 * @throws Exception Exception throws when the room already exists.
 	 */
-	public static void createRoom(RoomInputs inputs, File output) {
+	public static void createRoom(RoomInputs inputs) {
 		Room room = new Room(inputs.getCapacity(), inputs.getName());
 		if(!Room.containRoom(room))
 			rooms.add(room);
@@ -159,7 +159,7 @@ public class Room {
 	 * @param name A string that specifies the name of the room
 	 * for which its reservations are to be printed.
 	 */
-	public static void printReservations(String name, File output) {
+	public static void printReservations(String name) {
 		Room room = findRoomByName(name);
 		if (room != null) {
 			for (Reservation booking : room.getReservations()) {
