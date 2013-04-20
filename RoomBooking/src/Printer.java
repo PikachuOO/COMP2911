@@ -11,10 +11,10 @@ public class Printer {
 	 * @param name A string that specifies the name of the room
 	 * for which its reservations are to be printed.
 	 */
-	public static void printReservations(String name) {
+	public static void printReservations(String name, File output) {
 		Room room = Room.findRoomByName(name);
 		if (room != null) {
-			writeToFile(room.getRoomName());
+			writeToFile(room.getRoomName(), output);
 			for (Reservation booking : room.getReservations()) {
 				String contents = booking.getUser().getName() + " " +
 						MonthConverter.convertMonthToString(booking.getReservationMonth()) + 
@@ -22,7 +22,7 @@ public class Printer {
 						booking.getReservationTime() + " " +
 						booking.getReservationDuration() + " " +
 						booking.getTitle();
-				writeToFile(contents);
+				writeToFile(contents, output);
 			}
 		}
 	}
@@ -33,8 +33,7 @@ public class Printer {
 	 * the contents of the things needed to write into
 	 * the output file.
 	 */
-	public static void writeToFile(String contents) {
-		FileOutputStream fop;
+	public static void writeToFile(String contents, File output) {
 		try {
 			fop = new FileOutputStream(output, true);
 			// if file doesn't exists, then create it
@@ -49,12 +48,19 @@ public class Printer {
 			fop.write(13);
 			fop.write(10);
 			fop.flush();
-			fop.close();
  
 		} catch (IOException e) {
 			System.out.println("File writing error occured. Nothing was written.");
 		}
 	}
 	
-	private static File output = new File("src/outputs.txt");	
+	public static void closeFile() {
+		try {
+			fop.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static FileOutputStream fop;
 }

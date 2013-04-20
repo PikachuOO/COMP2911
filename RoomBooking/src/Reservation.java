@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.Calendar;
 
 
@@ -8,19 +9,22 @@ public class Reservation {
 	 * values accordingly.
 	 * @param params The list of parameters/values.
 	 */
-	public static void createReservation(String[] params) {
-		User user = new User(params[1]);
+	public static void createReservation(BookingInputs inputs, File output) {
+		User user = inputs.getUser();
+		Reservation reservation = new Reservation(user, inputs.getCapacity(), inputs.getTitle());
 		
-		for (int i = 0; i < Integer.parseInt(params[3]); i++) {
-			Reservation reservation = new Reservation(user, Integer.parseInt(params[2]), params[8]);
-			reservation.setReservationTime(Integer.parseInt(params[6]), Integer.parseInt(params[7]));
-			reservation.setReservationDates(params[4], Integer.parseInt(params[5]), i);
-			
-			if (!reservation.room.containReservation(reservation))
+		if (HOURS_IN_DAY - inputs.getTime() < inputs.getDuration())
+			Printer.writeToFile("No reservation for " + user.getName() +
+					" for " + inputs.getCapacity() + " for " + inputs.getNumWeeks() +
+					" weeks starting " + inputs.getMonth() + " " + inputs.getDate() +
+					" at " + inputs.getTime() + " is done.", output);
+		else
+			for (int i = 0; i < inputs.getNumWeeks(); i++) {
+				reservation.setReservationTime(inputs.getTime(), inputs.getDuration());
+				reservation.setReservationDates(inputs.getMonth(), inputs.getDate(), i);
 				reservation.room.addReservation(reservation);
-			else
-				System.out.println("Time slot reserved. No reservation was made.");
-		}
+				reservation = new Reservation(user, inputs.getCapacity(), inputs.getTitle());
+			}
 	}
 	
 	/**
@@ -28,20 +32,20 @@ public class Reservation {
 	 * and create new reservations according to the new requirements.
 	 * @param params A list of the values needed for changes to be made.
 	 */
-	public static void changeReservation(String[] params) {
-		User user = new User(params[1]);
-		Room room = Room.findRoomByName(params[2]);
-		String newParams[] = {"Change", params[1], params[7],
-				params[3], params[8], params[9], params[10],
-				params[11], params[12]};
-		
-		for (int i = 0; i < Integer.parseInt(params[3]); i++) {
-			Reservation booking = room.findReservation(user, 
-					MonthConverter.convertMonthToInt(params[4]), 
-					Integer.parseInt(params[5]), Integer.parseInt(params[6]));
-			room.removeReservation(booking);
-		}
-		createReservation(newParams);		
+	public static void changeReservation(ChangeInputs cInputs, DeleteInputs dInputs,
+			BookingInputs bInputs, File output) {
+		// Assign parameters to associate constants	
+		deleteReservation(dInputs, output);
+
+		if (deleted) {
+			createReservation(bInputs, output);
+			deleted = false;
+		} else
+			Printer.writeToFile(cInputs.getUser().getName() + "'s reservation for " +
+					cInputs.getNewCapacity() + " people on " + cInputs.getNewMonth() + " " +
+					cInputs.getNewDate() + " at " + cInputs.getNewTime() + " for " + cInputs.getNewDuration() +
+					" hours is rejected.", output);
+				
 	}
 	
 	/**
@@ -50,17 +54,31 @@ public class Reservation {
 	 * @param params A list of values that specify the room
 	 * of reservation, the time and date of reservation.
 	 */
-	public static void deleteReservation(String[] params) {
-		User user = new User(params[1]);
-		Room room = Room.findRoomByName(params[2]);
-			
-		for (int i = 0; i < Integer.parseInt(params[3]); i++) {
-			Reservation booking = room.findReservation(user, 
-					MonthConverter.convertMonthToInt(params[4]), Integer.parseInt(params[5]), 
-					Integer.parseInt(params[6]));
-			room.removeReservation(booking);
-			Printer.writeToFile("Reservations deleted");
-		}
+	public static void deleteReservation(DeleteInputs inputs, File output) {
+		Room room = Room.findRoomByName(inputs.getRoom());
+		int duration = inputs.getNumWeeks();
+		int date = inputs.getDate();
+		Calendar tempDate = Calendar.getInstance();
+		tempDate.set(Calendar.MONTH, inputs.getMonth());
+		tempDate.set(Calendar.HOUR_OF_DAY, inputs.getTime());
+		
+		if (room.foundReservations(tempDate.get(Calendar.MONTH),
+				date, tempDate.get(Calendar.HOUR_OF_DAY), duration)) {
+			for (int i = 0; i < duration; i++) {
+				int numDays = DAYS_IN_WEEKS * i;
+				tempDate.set(Calendar.DATE, date + numDays);
+				Reservation booking = room.findReservation(tempDate.get(Calendar.MONTH), 
+						tempDate.get(Calendar.DATE), tempDate.get(Calendar.HOUR_OF_DAY));
+				room.removeReservation(booking);
+			}
+			Printer.writeToFile("Reservations deleted", output);
+			deleted = true;
+		} else
+			Printer.writeToFile("Deletion for " + inputs.getUser().getName() + 
+					" in room " + inputs.getRoom() + " starting from " +
+					inputs.getMonth() + " " + inputs.getDate() + " at " + inputs.getTime() +
+					" is rejected.", output);
+		
 	}
 	
 	/**
@@ -101,11 +119,22 @@ public class Reservation {
 	}
 	
 	/**
+	 * Get the end time of the reservation.
+	 * The time is in 24 hour mode.
+	 * @return An integer that specifies the time.
+	 */
+	public int getReservationEndTime() {
+		return endTime.get(Calendar.HOUR_OF_DAY);
+	}
+	
+	/**
 	 * Get the number of hours for the reservation.
 	 * @return AN integer that specifies the number
 	 * of hours in the reservation.
 	 */
 	public int getReservationDuration() {
+		if (endTime.get(Calendar.HOUR_OF_DAY) == 0)
+			return HOURS_IN_DAY - startTime.get(Calendar.HOUR_OF_DAY);
 		return endTime.get(Calendar.HOUR_OF_DAY) - startTime.get(Calendar.HOUR_OF_DAY);
 	}
 
@@ -117,13 +146,15 @@ public class Reservation {
 		return this.title;
 	}
 	
-	private static final int DAYS_IN_WEEKS = 7;
-	private String title;
-	private Calendar reservationDate;
-	private Calendar startTime, endTime;
-	private User user;
-	private Room room;
-		
+	/**
+	 * Create a new reservation object with the name of the person
+	 * who books for the room, the number of people the reservation is
+	 * for the the title of the reservation.
+	 * @param user The user who books for the reservation.
+	 * @param capacity The number of people the reservation is need for.
+	 * This is needed to look for a room with the correct capacity.
+	 * @param title The title of the reservation.
+	 */
 	private Reservation(User user, int capacity, String title) {
 		setUser(user);
 		setRoom(capacity);
@@ -145,10 +176,10 @@ public class Reservation {
 	 * @param numWeeks An integer that specifies the number of weeks
 	 * the reservation will be going for.
 	 */
-	private void setReservationDates(String month, int date, int n) {
+	private void setReservationDates(int month, int date, int n) {
 		this.reservationDate = Calendar.getInstance();
 		int numDays = DAYS_IN_WEEKS * n;
-		this.reservationDate.set(Calendar.MONTH, MonthConverter.convertMonthToInt(month));
+		this.reservationDate.set(Calendar.MONTH, month);
 		this.reservationDate.set(Calendar.DATE, date + numDays);
 	}
 	
@@ -174,11 +205,20 @@ public class Reservation {
 	}
 		
 	/**
-	 * Get the room with a fitting capacity.
+	 * Get the list of rooms with a fitting capacity.
 	 * @param capacity An integer that specifies the number of
 	 * people have to store.
 	 */
 	private void setRoom(int capacity) {
 		this.room = Room.findRoomByCapacity(capacity);
 	}
+	
+	private static final int DAYS_IN_WEEKS = 7;
+	private static final int HOURS_IN_DAY = 24;
+	private String title;
+	private Calendar reservationDate;
+	private Calendar startTime, endTime;
+	private User user;
+	private Room room;
+	private static boolean deleted = false;
 }

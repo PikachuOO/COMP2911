@@ -1,0 +1,69 @@
+Room 101 assigned
+Room 102 assigned
+Room 103 assigned
+Room 104 assigned
+Room 105 assigned
+Room 106 assigned
+Room 107 assigned
+Room 108 assigned
+Room 104 assigned
+Room 109 assigned
+Room 110 assigned
+Deletion for Alan in room 102 starting from 3 4 at 12 is rejected.
+Alan's reservation for 10 people on 3 2 at 12 for 3 hours is rejected.
+Deletion for Fred in room 102 starting from 2 19 at 12 is rejected.
+Fred's reservation for 16 people on 2 21 at 11 for 2 hours is rejected.
+Reservations deleted
+Deletion for Fred in room 101 starting from 2 5 at 11 is rejected.
+Fred's reservation for 22 people on 2 8 at 10 for 2 hours is rejected.
+Reservations deleted
+Deletion for Fred in room 102 starting from 3 16 at 11 is rejected.
+101
+May Apr 18 12 4 Project
+Lily Apr 4 15 1 Meeting
+Lily Apr 11 15 1 Meeting
+102
+Joe Mar 8 10 1 TutorialA
+Joe Mar 15 10 1 TutorialA
+Joe Mar 22 10 1 TutorialA
+Joe Mar 29 10 1 TutorialA
+Joe Apr 5 10 1 TutorialA
+Joe Apr 12 10 1 TutorialA
+Joe Apr 19 10 1 TutorialA
+Joe Apr 26 10 1 TutorialA
+Joe May 3 10 1 TutorialA
+Joe May 24 10 1 TutorialA
+Joe May 10 13 1 Tutorial
+Joe May 17 13 1 Tutorial
+103
+104
+Alan Feb 5 17 2 LabA
+Alan Feb 12 17 2 LabA
+Alan Feb 19 17 2 LabA
+Alan Feb 26 17 2 LabA
+Alan Mar 5 17 2 LabA
+Alan Mar 12 17 2 LabA
+Alan Mar 19 17 2 LabA
+Alan Mar 26 17 2 LabA
+Alan Apr 2 17 2 LabA
+Alan Apr 9 17 2 LabA
+Alan Apr 16 17 2 LabA
+Alan Apr 23 17 2 LabA
+Fred Feb 5 12 2 LabB
+Fred Feb 12 12 2 LabB
+Fred Feb 19 12 2 LabB
+Fred Feb 26 12 2 LabB
+Fred Mar 5 12 2 LabB
+Fred Mar 12 12 2 LabB
+Fred Mar 19 12 2 LabB
+Fred Mar 26 12 2 LabB
+Fred Apr 2 12 2 LabB
+Fred Apr 9 12 2 LabB
+Fred Apr 16 12 2 LabB
+Fred Apr 23 12 2 LabB
+105
+106
+107
+108
+109
+110

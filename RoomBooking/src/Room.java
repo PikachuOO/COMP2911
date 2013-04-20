@@ -1,5 +1,9 @@
+import java.io.File;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 
 public class Room {
@@ -11,23 +15,35 @@ public class Room {
 	 * @param name A String that specifies the name of the room.
 	 * @throws Exception Exception throws when the room already exists.
 	 */
-	public static void createRoom(int capacity, String name) throws Exception {
-		Room room = new Room(capacity, name);
+	public static void createRoom(RoomInputs inputs, File output) {
+		Room room = new Room(inputs.getCapacity(), inputs.getName());
 		if(!Room.containRoom(room))
 			rooms.add(room);
-		else
-			throw new Exception("Room has been added");
-		Printer.writeToFile("Room " + name + " assigned");
+		Printer.writeToFile("Room " + room.getRoomName() + " assigned", output);
 	}
 	
+	/**
+	 * Add a new reservation to the list of reservations of the room.
+	 * @param reservation A reservation with all values set.
+	 */
 	public void addReservation(Reservation reservation) {
 		getReservations().add(reservation);
 	}
 	
+	/**
+	 * Remove a given reservation in the list of reservations of the room
+	 * that invoked the method.
+	 * @param reservation The reservation that will be deleted.
+	 */
 	public void removeReservation(Reservation reservation) {
 		getReservations().remove(reservation);
 	}
 	
+	/**
+	 * This method gets the list of all existing reservations
+	 * in the room that invoked this method.
+	 * @return A linked list of reservations for the room.
+	 */
 	public LinkedList<Reservation> getReservations() {
 		return this.reservations;
 	}
@@ -62,32 +78,6 @@ public class Room {
 	}
 	
 	/**
-	 * This method verifies if a given reservation exists
-	 * for the room assigned.
-	 * @param reservation The reservation slot that is needed
-	 * to verify.
-	 * @return True if the room has been booked out for the given
-	 * reservation slot, False otherwise.
-	 */
-	public boolean containReservation(Reservation reservation) {
-		// Only checks for the date and time of the reservation.
-		// As it does not really matter who booked the time slot or
-		// what the time slot was booked for. So is the duration as
-		// the start time of the slot tells us an overlap occurs.
-		// Use 'AND' because all these have to be the same
-		// for the time slot to be booked away, else the time slot
-		// is available.
-		for (Reservation booking : this.getReservations()) {
-			if (booking.getReservationMonth() == reservation.getReservationMonth() &&
-				booking.getReservationDate() == reservation.getReservationDate() &&
-				booking.getReservationTime() == reservation.getReservationTime()) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	/**
 	 * Find the reservation from the list of reservations
 	 * of the room that calls the function.
 	 * @param user A string that specifies the name of
@@ -100,15 +90,29 @@ public class Room {
 	 * the reservation.
 	 * @return The reservation with the matching values.
 	 */
-	public Reservation findReservation(User user, int month, int date, int time) {
+	public Reservation findReservation(int month, int date, int time) {
 		for (Reservation booking : this.getReservations()) {
-			if (booking.getUser().getName().equals(user.getName()) &&
-				booking.getReservationMonth() == month &&
+ 			if (booking.getReservationMonth() == month &&
 				booking.getReservationDate() == date &&
-				booking.getReservationTime() == time)
-				return booking;		
+				(booking.getReservationEndTime() > time ||
+				booking.getReservationTime() == time))				
+				return booking;
 		}
 		return null;
+	}
+	
+	
+	public boolean foundReservations(int month, int date, int time, int duration) {
+		boolean state = false;
+		Calendar tempDate = Calendar.getInstance();
+		for (int i = 0; i < duration; i++) {
+			int numDays = 7 * i;
+			tempDate.set(Calendar.MONTH, month);
+			tempDate.set(Calendar.DATE, date + numDays);
+			if (this.findReservation(tempDate.get(Calendar.MONTH), tempDate.get(Calendar.DATE), time) != null)
+				state = true;
+		}
+		return state;
 	}
 	
 	/**
@@ -136,6 +140,14 @@ public class Room {
 				return r;
 		}
 		return null;
+	}
+	
+	/**
+	 * Return the list of all the rooms in the system.
+	 * @return A list of all the rooms.
+	 */
+	public static List<Room> getAllRooms() {
+		return Collections.unmodifiableList(rooms);
 	}
 	
 	/**
@@ -170,6 +182,5 @@ public class Room {
 	private int capacity;
 	private String roomName;
 	private LinkedList<Reservation> reservations;
-
 	private static final LinkedList<Room> rooms = new LinkedList<Room>();
 }
