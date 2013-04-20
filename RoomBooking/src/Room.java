@@ -161,8 +161,8 @@ public class Room {
 	public static void printReservations(String name) {
 		Room room = findRoomByName(name);
 		if (room != null) {
+			System.out.println(room.getRoomName());
 			for (Reservation booking : room.getReservations()) {
-				System.out.println(room.getRoomName());
 				System.out.println(booking.getUser().getName() + " " +
 						MonthConverter.convertMonthToString(booking.getReservationMonth()) + 
 						" " + booking.getReservationDate() + " " +
