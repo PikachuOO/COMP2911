@@ -14,10 +14,14 @@ public class Reservation {
 		Reservation reservation = new Reservation(user, inputs.getCapacity(), inputs.getTitle());
 		
 		if (HOURS_IN_DAY - inputs.getTime() < inputs.getDuration())
-			Printer.writeToFile("No reservation for " + user.getName() +
+			System.out.println("No reservation for " + user.getName() +
 					" for " + inputs.getCapacity() + " for " + inputs.getNumWeeks() +
 					" weeks starting " + inputs.getMonth() + " " + inputs.getDate() +
-					" at " + inputs.getTime() + " is done.", output);
+					" at " + inputs.getTime() + " is done.");
+//			Printer.writeToFile("No reservation for " + user.getName() +
+//					" for " + inputs.getCapacity() + " for " + inputs.getNumWeeks() +
+//					" weeks starting " + inputs.getMonth() + " " + inputs.getDate() +
+//					" at " + inputs.getTime() + " is done.", output);
 		else
 			for (int i = 0; i < inputs.getNumWeeks(); i++) {
 				reservation.setReservationTime(inputs.getTime(), inputs.getDuration());
@@ -41,11 +45,14 @@ public class Reservation {
 			createReservation(bInputs, output);
 			deleted = false;
 		} else
-			Printer.writeToFile(cInputs.getUser().getName() + "'s reservation for " +
+//			Printer.writeToFile(cInputs.getUser().getName() + "'s reservation for " +
+//					cInputs.getNewCapacity() + " people on " + cInputs.getNewMonth() + " " +
+//					cInputs.getNewDate() + " at " + cInputs.getNewTime() + " for " + cInputs.getNewDuration() +
+//					" hours is rejected.", output);
+			System.out.println(cInputs.getUser().getName() + "'s reservation for " +
 					cInputs.getNewCapacity() + " people on " + cInputs.getNewMonth() + " " +
 					cInputs.getNewDate() + " at " + cInputs.getNewTime() + " for " + cInputs.getNewDuration() +
-					" hours is rejected.", output);
-				
+					" hours is rejected.");				
 	}
 	
 	/**
@@ -71,13 +78,18 @@ public class Reservation {
 						tempDate.get(Calendar.DATE), tempDate.get(Calendar.HOUR_OF_DAY));
 				room.removeReservation(booking);
 			}
+			System.out.println("Reservations deleted");
 			Printer.writeToFile("Reservations deleted", output);
 			deleted = true;
 		} else
-			Printer.writeToFile("Deletion for " + inputs.getUser().getName() + 
+//			Printer.writeToFile("Deletion for " + inputs.getUser().getName() + 
+//					" in room " + inputs.getRoom() + " starting from " +
+//					inputs.getMonth() + " " + inputs.getDate() + " at " + inputs.getTime() +
+//					" is rejected.", output);
+			System.out.println("Deletion for " + inputs.getUser().getName() + 
 					" in room " + inputs.getRoom() + " starting from " +
 					inputs.getMonth() + " " + inputs.getDate() + " at " + inputs.getTime() +
-					" is rejected.", output);
+					" is rejected.");
 		
 	}
 	
