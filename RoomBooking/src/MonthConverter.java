@@ -1,3 +1,4 @@
+import java.text.DateFormatSymbols;
 import java.util.Calendar;
 
 
@@ -48,31 +49,6 @@ public class MonthConverter {
 	 * Calendar.
 	 */
 	public static String convertMonthToString(int month) {
-		String monthInString = "";
-		if (month == Calendar.JANUARY)
-			monthInString = "Jan";
-		else if (month == Calendar.FEBRUARY)
-			monthInString = "Feb";
-		else if (month == Calendar.MARCH)
-			monthInString = "Mar";
-		else if (month == Calendar.APRIL)
-			monthInString = "Apr";
-		else if (month == Calendar.MAY)
-			monthInString = "May";
-		else if (month == Calendar.JUNE)
-			monthInString = "Jun";
-		else if (month == Calendar.JULY)
-			monthInString = "Jul";
-		else if (month == Calendar.AUGUST)
-			monthInString = "Aug";
-		else if (month == Calendar.SEPTEMBER)
-			monthInString = "Sep";
-		else if (month == Calendar.OCTOBER)
-			monthInString = "Oct";
-		else if (month == Calendar.NOVEMBER)
-			monthInString = "Nov";
-		else if (month == Calendar.DECEMBER)
-			monthInString = "Dec";
-		return monthInString;
+		return (new DateFormatSymbols().getShortMonths()[month]);
 	}
 }
