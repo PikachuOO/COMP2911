@@ -19,7 +19,8 @@ public class Room {
 		Room room = new Room(inputs.getCapacity(), inputs.getName());
 		if(!Room.containRoom(room))
 			rooms.add(room);
-		Printer.writeToFile("Room " + room.getRoomName() + " assigned", output);
+		System.out.println("Room " + room.getRoomName() + " assigned");
+//		Printer.writeToFile("Room " + room.getRoomName() + " assigned", output);
 	}
 	
 	/**
@@ -148,6 +149,28 @@ public class Room {
 	 */
 	public static List<Room> getAllRooms() {
 		return Collections.unmodifiableList(rooms);
+	}
+	
+	/**
+	 * Print all the existing reservation for a give room name.
+	 * This method prints the user of the reservation, the month and date
+	 * when the reservation starts, and the time and number of hours
+	 * the reservation lasts for.
+	 * @param name A string that specifies the name of the room
+	 * for which its reservations are to be printed.
+	 */
+	public static void printReservations(String name, File output) {
+		Room room = findRoomByName(name);
+		if (room != null) {
+			for (Reservation booking : room.getReservations()) {
+				System.out.println(booking.getUser().getName() + " " +
+						MonthConverter.convertMonthToString(booking.getReservationMonth()) + 
+						" " + booking.getReservationDate() + " " +
+						booking.getReservationTime() + " " +
+						booking.getReservationDuration() + " " +
+						booking.getTitle());
+			}
+		}
 	}
 	
 	/**
