@@ -27,7 +27,6 @@ public class RoomBookingSystem {
 				}
 			}
 			inputScanner.close();
-			Printer.closeFile();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

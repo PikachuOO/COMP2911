@@ -1,4 +1,3 @@
-import java.io.File;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Iterator;
@@ -163,6 +162,7 @@ public class Room {
 		Room room = findRoomByName(name);
 		if (room != null) {
 			for (Reservation booking : room.getReservations()) {
+				System.out.println(room.getRoomName());
 				System.out.println(booking.getUser().getName() + " " +
 						MonthConverter.convertMonthToString(booking.getReservationMonth()) + 
 						" " + booking.getReservationDate() + " " +
