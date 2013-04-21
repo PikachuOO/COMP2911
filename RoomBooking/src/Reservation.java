@@ -1,6 +1,5 @@
 import java.util.Calendar;
 
-
 public class Reservation {
 
 	/**
@@ -12,13 +11,15 @@ public class Reservation {
 		User user = inputs.getUser();
 		Reservation reservation = new Reservation(user, room, inputs.getTitle());
 			
-		if (HOURS_IN_DAY - inputs.getTime() > inputs.getDuration())
+		if (HOURS_IN_DAY - inputs.getTime() > inputs.getDuration()) {
 			for (int i = 0; i < inputs.getNumWeeks(); i++) {
 				reservation.setReservationTime(inputs.getTime(), inputs.getDuration());
 				reservation.setReservationDates(inputs.getMonth(), inputs.getDate(), i);
 				reservation.room.addReservation(reservation);
 				reservation = new Reservation(user, room, inputs.getTitle());
 			}
+			System.out.println("Room " + room.getRoomName() + " assigned");
+		}
 	}
 	
 	/**
