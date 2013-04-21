@@ -62,15 +62,15 @@ public class RoomBookingSystem {
 		if (delete(deleteParams))
 			book(bookingParams);
 		else
-			System.out.println("Change rejected.");
+			System.out.println("Change rejected");
 	}
 	
 	private static boolean delete(String[] params) {
 		DeleteInputs inputs = new DeleteInputs(params);
 		Room room = Room.findRoomByName(inputs.getRoom());
 		
-		if (room.foundReservations(inputs.getMonth(), inputs.getDate(),
-				inputs.getTime(), inputs.getNumWeeks()))
+		if (room != null && room.foundReservations(inputs.getMonth(), 
+				inputs.getDate(), inputs.getTime(), inputs.getNumWeeks()))
 			return (Reservation.deleteReservation(inputs, room));
 		return false;
 	}
