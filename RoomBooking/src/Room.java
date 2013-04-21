@@ -1,5 +1,6 @@
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,8 +19,6 @@ public class Room {
 		Room room = new Room(inputs.getCapacity(), inputs.getName());
 		if(!Room.containRoom(room))
 			rooms.add(room);
-		System.out.println("Room " + room.getRoomName() + " assigned");
-//		Printer.writeToFile("Room " + room.getRoomName() + " assigned", output);
 	}
 	
 	/**
@@ -27,7 +26,7 @@ public class Room {
 	 * @param reservation A reservation with all values set.
 	 */
 	public void addReservation(Reservation reservation) {
-		getAllReservations().add(reservation);
+		reservations.add(reservation);
 	}
 	
 	/**
@@ -36,7 +35,7 @@ public class Room {
 	 * @param reservation The reservation that will be deleted.
 	 */
 	public void removeReservation(Reservation reservation) {
-		getAllReservations().remove(reservation);
+		reservations.remove(reservation);
 	}
 	
 	/**
@@ -72,7 +71,7 @@ public class Room {
 	public static boolean containRoom(Room room) {
 		Iterator<Room> iterator = rooms.iterator();
 		while(iterator.hasNext())
-			if(iterator.next().getRoomName().equals(room.getRoomName()))
+			if(iterator.next().getRoomName().equalsIgnoreCase(room.getRoomName()))
 				return true;
 		return false;
 	}
@@ -161,6 +160,30 @@ public class Room {
 	}
 	
 	/**
+	 * Sort the list of reservations of the room
+	 * that triggers this function.
+	 */
+	public void sortReservationsByDate() {
+		LinkedList<Reservation> reservations = this.getAllReservations();
+		Collections.sort(reservations, new Comparator<Reservation>() {
+
+			@Override
+			public int compare(Reservation booking1, Reservation booking2) {
+				if (booking1.getReservationMonth() > booking2.getReservationMonth()) {
+					return 1;
+				} else if (booking1.getReservationMonth() == booking2.getReservationMonth() &&
+						booking1.getReservationDate() > booking2.getReservationDate()) {
+					return 1;
+				} else if (booking1.getReservationMonth() < booking2.getReservationMonth()){
+					return -1;
+				}
+				return 0;
+			}
+			
+		});
+	}
+	
+	/**
 	 * Print all the existing reservation for a give room name.
 	 * This method prints the user of the reservation, the month and date
 	 * when the reservation starts, and the time and number of hours
@@ -170,6 +193,7 @@ public class Room {
 	 */
 	public static void printReservations(String name) {
 		Room room = findRoomByName(name);
+		room.sortReservationsByDate();
 		if (room != null) {
 			System.out.println(room.getRoomName());
 			for (Reservation booking : room.getAllReservations()) {
