@@ -11,13 +11,8 @@ public class Reservation {
 	public static void createReservation(BookingInputs inputs, Room room) {
 		User user = inputs.getUser();
 		Reservation reservation = new Reservation(user, room, inputs.getTitle());
-		
-		if (HOURS_IN_DAY - inputs.getTime() < inputs.getDuration())
-			System.out.println("No reservation for " + user.getName() +
-					" for " + inputs.getCapacity() + " for " + inputs.getNumWeeks() +
-					" weeks starting " + inputs.getMonth() + " " + inputs.getDate() +
-					" at " + inputs.getTime() + " is done.");
-		else
+			
+		if (HOURS_IN_DAY - inputs.getTime() > inputs.getDuration())
 			for (int i = 0; i < inputs.getNumWeeks(); i++) {
 				reservation.setReservationTime(inputs.getTime(), inputs.getDuration());
 				reservation.setReservationDates(inputs.getMonth(), inputs.getDate(), i);
