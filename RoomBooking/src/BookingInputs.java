@@ -42,26 +42,6 @@ public class BookingInputs extends Inputs {
 	public String getTitle() {
 		return title;
 	}
-	
-	@Override
-	public User getUser() {
-		return super.getUser();
-	}
-	
-	@Override
-	public int getMonth() {
-		return super.getMonth();
-	}
-	
-	@Override
-	public int getDate() {
-		return super.getDate();
-	}
-	
-	@Override
-	public int getTime() {
-		return super.getTime();
-	}
 
 	private int capacity;
 	private int duration;

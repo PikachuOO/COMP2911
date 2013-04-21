@@ -13,7 +13,7 @@ public class Inputs {
 	 * Get the User object of the current input.
 	 * @return A User object.
 	 */
-	public User getUser() {
+	protected User getUser() {
 		return this.user;
 	}
 	
@@ -22,7 +22,7 @@ public class Inputs {
 	 * @return An integer that specifies the number of weeks
 	 * in the input.
 	 */
-	public int getNumWeeks() {
+	protected int getNumWeeks() {
 		return numWeeks;
 	}
 
@@ -30,7 +30,7 @@ public class Inputs {
 	 * Get the month value in the current input.
 	 * @return An integer that specifies the month value.
 	 */
-	public int getMonth() {
+	protected int getMonth() {
 		return this.month;
 	}
 	
@@ -38,7 +38,7 @@ public class Inputs {
 	 * Get the date value in the current input.
 	 * @return An integer that specifies the date value.
 	 */
-	public int getDate() {
+	protected int getDate() {
 		return this.date;
 	}
 	
@@ -46,7 +46,7 @@ public class Inputs {
 	 * Get the time value in the current input.
 	 * @return An integer that specifies the time value.
 	 */
-	public int getTime() {
+	protected int getTime() {
 		return this.time;
 	}
 	
