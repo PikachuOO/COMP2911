@@ -27,7 +27,7 @@ public class Room {
 	 * @param reservation A reservation with all values set.
 	 */
 	public void addReservation(Reservation reservation) {
-		getReservations().add(reservation);
+		getAllReservations().add(reservation);
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public class Room {
 	 * @param reservation The reservation that will be deleted.
 	 */
 	public void removeReservation(Reservation reservation) {
-		getReservations().remove(reservation);
+		getAllReservations().remove(reservation);
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class Room {
 	 * in the room that invoked this method.
 	 * @return A linked list of reservations for the room.
 	 */
-	public LinkedList<Reservation> getReservations() {
+	public LinkedList<Reservation> getAllReservations() {
 		return this.reservations;
 	}
 	
@@ -91,7 +91,7 @@ public class Room {
 	 * @return The reservation with the matching values.
 	 */
 	public Reservation findReservation(int month, int date, int time) {
-		for (Reservation booking : this.getReservations()) {
+		for (Reservation booking : this.getAllReservations()) {
  			if (booking.getReservationMonth() == month &&
 				booking.getReservationDate() == date &&
 				(booking.getReservationEndTime() > time ||
@@ -101,11 +101,21 @@ public class Room {
 		return null;
 	}
 	
-	
-	public boolean foundReservations(int month, int date, int time, int duration) {
+	/**
+	 * Check and find if a certain number of reservations exists
+	 * in a particular room that triggers this method.
+	 * @param month An integer that specifies the month of the reservation
+	 * @param date An integer that specifies the date of the reservation
+	 * @param time An integer that specifies the time of the reservation
+	 * @param numWeeks An integer that specifies the number of weeks or the
+	 * number of reservations needed to be check.
+	 * @return True if all reservations are found for the room and false
+	 * otherwise.
+	 */
+	public boolean foundReservations(int month, int date, int time, int numWeeks) {
 		boolean state = false;
 		Calendar tempDate = Calendar.getInstance();
-		for (int i = 0; i < duration; i++) {
+		for (int i = 0; i < numWeeks; i++) {
 			int numDays = 7 * i;
 			tempDate.set(Calendar.MONTH, month);
 			tempDate.set(Calendar.DATE, date + numDays);
@@ -162,7 +172,7 @@ public class Room {
 		Room room = findRoomByName(name);
 		if (room != null) {
 			System.out.println(room.getRoomName());
-			for (Reservation booking : room.getReservations()) {
+			for (Reservation booking : room.getAllReservations()) {
 				System.out.println(booking.getUser().getName() + " " +
 						MonthConverter.convertMonthToString(booking.getReservationMonth()) + 
 						" " + booking.getReservationDate() + " " +
