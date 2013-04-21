@@ -20,8 +20,10 @@ public class RoomBookingSystem {
 				} else if (params[0].equals("Change")) {
 					change(params);
 				} else if (params[0].equals("Delete")) {
-					DeleteInputs inputs = new DeleteInputs(params);
-					Reservation.deleteReservation(inputs);
+					if (delete(params))
+						System.out.println("Reservations deleted");
+					else
+						System.out.println("Delete rejected");
 				} else if (params[0].equals("Print")) {
 					Room.printReservations(params[1]);
 				}
@@ -35,30 +37,41 @@ public class RoomBookingSystem {
 	private static void book(String[] params) {
 		ListIterator<Room> i = Room.getAllRooms().listIterator();
 		Room room;
+		boolean booked = false;
 		BookingInputs inputs = new BookingInputs(params);
 		
-		while (i.hasNext()) {
+		while (i.hasNext() && booked == false) {
 			room = i.next();
 			if(room.getCapacity() >= inputs.getCapacity()) {
 				if(!room.foundReservations(inputs.getMonth(), 
 						inputs.getDate(), inputs.getTime(), inputs.getNumWeeks())) {
-					Reservation.createReservation(inputs);
-					break;
+					Reservation.createReservation(inputs, room);
+					booked = true;
 				}
 			}
 		}
 	}
 	
 	private static void change(String[] params) {
-		ChangeInputs cInputs= new ChangeInputs(params);
 		String[] deleteParams = {"Delete", params[1], params[2],
 				params[3], params[4], params[5], params[6]};
-		DeleteInputs dInputs  = new DeleteInputs(deleteParams);
 		String[] bookingParams = {"Book", params[1], params[7],
 				params[3], params[8], params[9], params[10], 
 				params[11], params[12]};
-		BookingInputs bInputs = new BookingInputs(bookingParams);
 		
-		Reservation.changeReservation(cInputs, dInputs, bInputs);
+		if (delete(deleteParams))
+			book(bookingParams);
+		else
+			System.out.println("Change rejected");
+	}
+	
+	private static boolean delete(String[] params) {
+		DeleteInputs inputs = new DeleteInputs(params);
+		Room room = Room.findRoomByName(inputs.getRoom());
+		
+		if (room != null && room.foundReservations(inputs.getMonth(), 
+				inputs.getDate(), inputs.getTime(), inputs.getNumWeeks()))
+			return (Reservation.deleteReservation(inputs, room));
+		return false;
 	}
 }

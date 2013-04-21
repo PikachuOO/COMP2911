@@ -20,7 +20,7 @@ public class RoomInputs {
 	
 	/**
 	 * Get the capacity of the room in the input.
-	 * @return An ingeger that specifies the capacity
+	 * @return An integer that specifies the capacity
 	 * of the room.
 	 */
 	public int getCapacity() {

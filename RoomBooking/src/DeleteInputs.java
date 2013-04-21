@@ -20,25 +20,5 @@ public class DeleteInputs extends Inputs {
 		return room;
 	}
 
-	@Override
-	public User getUser() {
-		return super.getUser();
-	}
-
-	@Override
-	public int getMonth() {
-		return super.getMonth();
-	}
-
-	@Override
-	public int getDate() {
-		return super.getDate();
-	}
-
-	@Override
-	public int getTime() {
-		return super.getTime();
-	}
-
 	private String room;
 }
