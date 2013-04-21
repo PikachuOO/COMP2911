@@ -1,7 +1,11 @@
 
 public class User {
-	private String name;
 	
+	/**
+	 * Create a user with the defined name.
+	 * @param aName A string to be assign as name
+	 * of the user.
+	 */
 	public User(String aName) {
 		setName(aName);
 	}
@@ -22,4 +26,6 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	private String name;
 }
