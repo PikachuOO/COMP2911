@@ -7,9 +7,10 @@ public class Reservation {
 	 * values accordingly.
 	 * @param params The list of parameters/values.
 	 */
-	public static void createReservation(BookingInputs inputs, Room room) {
+	public static boolean createReservation(BookingInputs inputs, Room room) {
 		User user = inputs.getUser();
 		Reservation reservation = new Reservation(user, room, inputs.getTitle());
+		boolean bookingCreated = false;
 			
 		if (HOURS_IN_DAY - inputs.getTime() > inputs.getDuration()) {
 			for (int i = 0; i < inputs.getNumWeeks(); i++) {
@@ -18,8 +19,9 @@ public class Reservation {
 				reservation.room.addReservation(reservation);
 				reservation = new Reservation(user, room, inputs.getTitle());
 			}
-			System.out.println("Room " + room.getRoomName() + " assigned");
+			bookingCreated = true;
 		}
+		return bookingCreated;
 	}
 	
 	/**

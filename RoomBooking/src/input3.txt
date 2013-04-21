@@ -1,0 +1,20 @@
+Room 20 101
+Room 100 Matthew
+
+Book Amy 15 3 Mar 1 8 2 LabA
+Book Ann 12 3 Mar 1 9 3 LabB
+Book Andy 85 10 Mar 1 11 3 LectureA
+Book Nicole 18 4 Mar 8 13 1 Tutorial
+Book Bob 3 3 Mar 1 4 3 ProjectA
+Book Alan 3 3 Mar 1 20 5 ProjectB
+
+Change Andy matthew 10 Mar 1 11 110 Mar 1 11 3 LectureA
+Change Alan 101 3 Mar 1 20 3 Mar 1 20 2 ProjectB
+Change Amy 101 1 Mar 8 8 15 Mar 3 8 1 LabB
+change nicole 101 1 Mar 15 13 18 Mar 15 14 1 Tutorial
+
+delete Ann matthew 1 Mar 8 9
+
+Print 100
+Print 101
+Print matthew

@@ -92,10 +92,13 @@ public class Room {
 	public Reservation findReservation(int month, int date, int time) {
 		for (Reservation booking : this.getAllReservations()) {
  			if (booking.getReservationMonth() == month &&
-				booking.getReservationDate() == date &&
-				(booking.getReservationEndTime() > time ||
-				booking.getReservationTime() == time))				
-				return booking;
+				booking.getReservationDate() == date) {
+ 				if (booking.getReservationTime() == time)			
+ 					return booking;
+ 				else if (booking.getReservationTime() < time &&
+ 						booking.getReservationEndTime() > time)
+ 					return booking;
+ 			}				
 		}
 		return null;
 	}
@@ -111,15 +114,15 @@ public class Room {
 	 * @return True if all reservations are found for the room and false
 	 * otherwise.
 	 */
-	public boolean foundReservations(int month, int date, int time, int numWeeks) {
-		boolean state = false;
+	public int foundReservations(int month, int date, int time, int numWeeks) {
+		int state = 0;
 		Calendar tempDate = Calendar.getInstance();
 		for (int i = 0; i < numWeeks; i++) {
 			int numDays = 7 * i;
 			tempDate.set(Calendar.MONTH, month);
 			tempDate.set(Calendar.DATE, date + numDays);
 			if (this.findReservation(tempDate.get(Calendar.MONTH), tempDate.get(Calendar.DATE), time) != null)
-				state = true;
+				state++;
 		}
 		return state;
 	}
@@ -145,7 +148,7 @@ public class Room {
 	 */
 	public static Room findRoomByName(String roomName) {
 		for (Room r : rooms) {
-			if (r.roomName.equals(roomName))
+			if (r.roomName.equalsIgnoreCase(roomName))
 				return r;
 		}
 		return null;
@@ -163,7 +166,7 @@ public class Room {
 	 * Sort the list of reservations of the room
 	 * that triggers this function.
 	 */
-	public void sortReservationsByDate() {
+	public void sortReservationsByTime() {
 		LinkedList<Reservation> reservations = this.getAllReservations();
 		Collections.sort(reservations, new Comparator<Reservation>() {
 
@@ -174,10 +177,13 @@ public class Room {
 				} else if (booking1.getReservationMonth() == booking2.getReservationMonth() &&
 						booking1.getReservationDate() > booking2.getReservationDate()) {
 					return 1;
-				} else if (booking1.getReservationMonth() < booking2.getReservationMonth()){
+				} else if (booking1.getReservationMonth() == booking2.getReservationMonth() &&
+						booking1.getReservationDate() == booking2.getReservationDate() &&
+						booking1.getReservationTime() > booking2.getReservationTime()) {
+					return 1;
+				} else {
 					return -1;
 				}
-				return 0;
 			}
 			
 		});
@@ -193,8 +199,8 @@ public class Room {
 	 */
 	public static void printReservations(String name) {
 		Room room = findRoomByName(name);
-		room.sortReservationsByDate();
-		if (room != null) {
+ 		if (room != null) {
+ 			room.sortReservationsByTime();
 			System.out.println(room.getRoomName());
 			for (Reservation booking : room.getAllReservations()) {
 				System.out.println(booking.getUser().getName() + " " +

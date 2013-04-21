@@ -12,14 +12,11 @@ Book Alan 16 12 Mar 1 9 2 LabA
 Book Dave 22 12 Mar 1 9 3 LabB
 Book May 5 3 Apr 4 15 2 ProjectA
 Book Susan 14 2 Mar 26 11 2 MeetingA
+Book Sandy 14 2 Mar 26 7 1 MeetingB
 Book Joe 45 4 May 3 11 1 GameA
 Book Lily 18 2 Mar 22 9 2 ProjectB
 
-Change Alan 102 3 Mar 15 9 40 Mar 17 11 2 Tutorial
-Change Dave 104 2 Mar 8 9 22 Mar 8 10 3 LabB
-
 Delete Lily 105 2 Mar 22 9
-Delete Susan 101 1 Mar 26 11
 
 Print 101
 Print 102
