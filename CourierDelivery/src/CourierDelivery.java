@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -24,6 +25,15 @@ public class CourierDelivery {
 					myJobs.addJob(from, to);
 				}
 			}
+			
+			
+			LinkedList<Job> jobs = myJobs.getJobs();
+			for (Job j : jobs) {
+				System.out.println("From (" + j.getFrom().getX() + "," + j.getFrom().getY()
+						+ ") to (" + j.getTo().getX() + "," + j.getTo().getY() + ").");
+			}
+			
+			myJobs.getJobPath();
 			
 			inputScanner.close();
 		} catch (FileNotFoundException e) {

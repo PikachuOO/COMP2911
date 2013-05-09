@@ -43,7 +43,7 @@ public class Job {
 	 * @return Return the distance of the job.
 	 */
 	public int getDistance() {
-		return distance;
+		return this.distance;
 	}
 	
 	/**
@@ -52,7 +52,7 @@ public class Job {
 	 * @param to The coordinate point of the ending point.
 	 * @return Return the distance between the 2 points in integer.
 	 */
-	public int calculateDistance(Coordinate from, Coordinate to) {
+	public static int calculateDistance(Coordinate from, Coordinate to) {
 		return (Math.abs(from.getX() - to.getX()) +
 				Math.abs(from.getY() - to.getY()));
 	}

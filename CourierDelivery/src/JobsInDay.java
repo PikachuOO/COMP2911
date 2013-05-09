@@ -1,4 +1,6 @@
+import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 /**
  * 
@@ -36,8 +38,73 @@ public class JobsInDay {
 	}
 	
 	public void getJobPath() {
+		JobData currentPoint = new JobData(home, false);
+		currentPoint.setCost(0);
+		unvisitedJobs.add(currentPoint);
 		
+		while(unvisitedJobs.size() > 0) {
+			currentPoint = unvisitedJobs.poll();
+			
+			if (visitedJobs.contains(currentPoint))
+				continue;
+			
+			visitedJobs.add(currentPoint);
+			totalCost += currentPoint.getCost();
+			
+			if (currentPoint.isJob()) {
+				currentPoint = deliverJob(currentPoint.getPoint());
+				unvisitedJobs.clear();
+			}
+			
+			for (Job j : this.jobs) {
+				if (alreadyVisited(j.getFrom()))
+					continue;
+				JobData jd = new JobData(j.getFrom(), true);
+				int cost = Job.calculateDistance(currentPoint.getPoint(), jd.getPoint());
+				jd.setCost(cost);
+				unvisitedJobs.add(jd);
+			}
+		}
+		System.out.println("cost = " + totalCost);
+	}
+	
+	private JobData deliverJob(Coordinate from) {
+		Coordinate to = null;
+		for (Job j : this.jobs) {
+			if (j.getFrom() == from) {
+				to = j.getTo();
+				totalCost += j.getDistance();
+				break;
+			}
+		}
+		JobData endPoint = new JobData(to, false);
+		
+		System.out.println("Carry from " + from.getX() + " " + from.getY()
+				+ " to " + to.getX() + " " + to.getY());
+		return endPoint;
+	}
+	
+	private boolean alreadyVisited(Coordinate c) {
+		for(JobData jd : visitedJobs) {
+			if (jd.getPoint() == c)
+				return true;
+		}
+		return false;
 	}
 	
 	private LinkedList<Job> jobs;
+	private static final Coordinate home = new Coordinate(0, 0);
+	private PriorityQueue<JobData> unvisitedJobs = new PriorityQueue<>(100, new Comparator<JobData>() {
+
+		@Override
+		public int compare(JobData o1, JobData o2) {
+			if (o1.getCost() > o2.getCost())
+				return 1;
+			else if (o1.getCost() < o2.getCost())
+				return -1;
+			return 0;
+		}
+	});
+	private LinkedList<JobData> visitedJobs = new LinkedList<JobData>();
+	private int totalCost = 0;
 }
