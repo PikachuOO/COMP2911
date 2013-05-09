@@ -1,7 +1,10 @@
-import java.util.Collections;
+//import java.util.Collections;
+//import java.util.Comparator;
+//import java.util.Currency;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 public class StringGraph implements Graph {
 	
@@ -55,7 +58,6 @@ public class StringGraph implements Graph {
 
 	@Override
 	public Boolean isConnected(Object from, Object to) throws Exception {
-		// TODO Auto-generated method stub
 		if (from instanceof String && to instanceof String) {
 			Node f = containNode((String) from);
 			Iterator<Edge> iter = f.getConnection().iterator();
@@ -118,6 +120,7 @@ public class StringGraph implements Graph {
 	public void BFS(String start, String end) {
 		NodeData currentNode = new NodeData(this.containNode(start));
 		NodeData endNode = new NodeData(this.containNode(end));
+		currentNode.setParent(null);
 		unvisitedNodes.add(currentNode);
 		while (currentNode.getNode() != endNode.getNode() && unvisitedNodes.size() > 0) { 
 			
@@ -133,28 +136,27 @@ public class StringGraph implements Graph {
 			currentNode.getNode().sortConnections();
 			LinkedList<Edge> connections = currentNode.getNode().getConnection();
 			for (Edge c : connections) {
-				Boolean addToQueue = true;
-				for (NodeData d : visitedNodes) {
-					if (d.getNode() == c.getNode()) {
-						addToQueue = false;
-						break;
-					}
-				}
-				if (addToQueue)
-					unvisitedNodes.add(new NodeData(c.getNode()));
+				if (visitedNodes.contains(c.getNode()))
+					continue;
+				NodeData n = new NodeData(c.getNode());
+				n.setParent(currentNode);
+				unvisitedNodes.add(n);
 			}
 		}
-		System.out.println("out of the loop");
+		
+		System.out.println("Path using BFS:");
+		while (currentNode != null) {
+			System.out.println(currentNode.getNode().getName());
+			currentNode = currentNode.getParent();
+		}
 	}
 	
 	public void AStarSearch(String start, String end) {
-		NodeData startNode = new NodeData(this.containNode(start));
-		NodeData currentNode = new NodeData(this.containNode(start));
+		NodeData currentNode = new NodeData(containNode(start));
 		NodeData endNode = new NodeData(this.containNode(end));
-		int cost = currentNode.getNode().getHeuristic() + 0;
-		currentNode.setCost(cost);
+		currentNode.setParent(null);
+		currentNode.setCost(0);
 		unvisitedNodes.add(currentNode);
-		int currentCost = 0, costSum = 0;
 		
 		while (currentNode.getNode() != endNode.getNode() && unvisitedNodes.size() > 0) {
 			currentNode = unvisitedNodes.poll();
@@ -162,44 +164,60 @@ public class StringGraph implements Graph {
 			if (visitedNodes.contains(currentNode)) {
 				continue;	// we have already visited this node. 
 			}
-			// add the node to the visited list 
+			
 			visitedNodes.add(currentNode);
 			
-			// add the children to the unvisitedNodes list. 
 			currentNode.getNode().sortConnections();
 			LinkedList<Edge> connections = currentNode.getNode().getConnection();
 			for (Edge c : connections) {
-				for (NodeData d : visitedNodes) {
-					if (d.getNode() == c.getNode()) {
-						continue;
-					}
-				}
-				
+				if (visitedNodes.contains(c.getNode()))
+					continue;
 				NodeData n = new NodeData(c.getNode());
-				if (currentNode.getNode().getName().equals(startNode.getNode().getName()))
-					n.setCost(n.getNode().getHeuristic() + (currentCost + c.getCost()));
-				else
-					n.setCost(n.getNode().getHeuristic() + (currentCost + c.getCost()) + startNode.getNode().getConnection().peek().getCost());
+				n.setParent(currentNode);
+				int costSum = 0;
+				NodeData temp = n.getParent();
+				if (temp.getCost() != 0) {
+					costSum += temp.getCost() - temp.getNode().getHeuristic();
+				}
+				n.setCost(n.getNode().getHeuristic() + c.getCost() + costSum);
 				unvisitedNodes.add(n);
 			}
-			
-			sortNodesByCost();			
 		}
-	}
-	
-	public void sortNodesByCost() {
-		Collections.sort(unvisitedNodes, new Comparator<NodeData>() {
-
-			@Override
-			public int compare(NodeData o1, NodeData o2) {
-				if (o1.getCost() > o2.getCost())
-					return 1;
-				return -1;
-			}			
-		});
+		
+		System.out.println();
+		System.out.println("Path using A*:");
+		while (currentNode != null) {
+			System.out.println(currentNode.getNode().getName() + " - " + (currentNode.getCost() - currentNode.getNode().getHeuristic()));
+			currentNode = currentNode.getParent();
+		}
+		
+		System.out.println();
+		System.out.println("Nodes unvisited:");
+		for (NodeData n : unvisitedNodes) {
+			System.out.println(n.getNode().getName() + " - " + n.getCost());
+		}
+		
+		System.out.println();
+		System.out.println("Nodes visited:");
+		for (NodeData n : visitedNodes) {
+			System.out.println(n.getNode().getName());
+		}
+		
 	}
 
 	private LinkedList<Node> stringGraph;
-	private LinkedList<NodeData> unvisitedNodes = new LinkedList<NodeData>();
+	private PriorityQueue<NodeData> unvisitedNodes = new PriorityQueue<NodeData>(20, new Comparator<NodeData>() {
+
+		@Override
+		public int compare(NodeData o1, NodeData o2) {
+			if (o1.getCost() > o2.getCost()) {
+				return 1;
+			} else if (o1.getCost() < o2.getCost()) {
+				return -1;
+			}
+			return 0;
+		}
+		
+	});
 	private LinkedList<NodeData> visitedNodes = new LinkedList<NodeData>();
 }
