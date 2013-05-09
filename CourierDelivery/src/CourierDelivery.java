@@ -20,9 +20,8 @@ public class CourierDelivery {
 				String[] params = s.split(" ");
 				
 				if (params[0].equals("Job")) {
-					String from[] = {params[1], params[2]};
-					String to[] = {params[4], params[5]};
-					myJobs.addJob(from, to);
+					Inputs inputs = new Inputs(params);
+					myJobs.addJob(inputs.getFrom(), inputs.getTo());
 				}
 			}
 			

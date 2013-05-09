@@ -24,7 +24,7 @@ public class JobsInDay {
 	 * @param to The coordinates in array of String for
 	 * the ending point of the job.
 	 */
-	public void addJob(String from[], String to[]) {
+	public void addJob(int[] from, int[] to) {
 		Job j = new Job(from, to);
 		jobs.add(j);
 	}
@@ -40,6 +40,7 @@ public class JobsInDay {
 	public void getJobPath() {
 		JobData currentPoint = new JobData(home, false);
 		currentPoint.setCost(0);
+		Coordinate previousPostion = null;
 		unvisitedJobs.add(currentPoint);
 		
 		while(unvisitedJobs.size() > 0) {
@@ -50,6 +51,11 @@ public class JobsInDay {
 			
 			visitedJobs.add(currentPoint);
 			totalCost += currentPoint.getCost();
+			
+			if (previousPostion != null)
+				System.out.println("Move from " + previousPostion.getX() + 
+					" " + previousPostion.getY() + " to " + currentPoint.getPoint().getX()
+					+ " " + currentPoint.getPoint().getY());
 			
 			if (currentPoint.isJob()) {
 				currentPoint = deliverJob(currentPoint.getPoint());
@@ -64,8 +70,10 @@ public class JobsInDay {
 				jd.setCost(cost);
 				unvisitedJobs.add(jd);
 			}
+			previousPostion = currentPoint.getPoint();
 		}
 		System.out.println("cost = " + totalCost);
+		System.out.println(visitedJobs.size() + " nodes explored");
 	}
 	
 	private JobData deliverJob(Coordinate from) {
@@ -77,10 +85,14 @@ public class JobsInDay {
 				break;
 			}
 		}
+		
 		JobData endPoint = new JobData(to, false);
 		
-		System.out.println("Carry from " + from.getX() + " " + from.getY()
-				+ " to " + to.getX() + " " + to.getY());
+		if (from.getX() != to.getX() ||
+				from.getY() != to.getY())
+			System.out.println("Carry from " + from.getX() + " " + from.getY()
+					+ " to " + to.getX() + " " + to.getY());		
+		
 		return endPoint;
 	}
 	

@@ -16,9 +16,9 @@ public class Job {
 	 * @param to A set of (x,y) point for the ending
 	 * pint of the job.
 	 */
-	public Job(String from[], String to[]) {
-		this.from = new Coordinate(Integer.parseInt(from[0]), Integer.parseInt(from[1]));
-		this.to = new Coordinate(Integer.parseInt(to[0]), Integer.parseInt(to[1]));
+	public Job(int from[], int to[]) {
+		this.from = new Coordinate(from[0], from[1]);
+		this.to = new Coordinate(to[0], to[1]);
 		this.distance = calculateDistance(this.from, this.to);
 	}
 	
