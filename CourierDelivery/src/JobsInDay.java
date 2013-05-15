@@ -38,7 +38,8 @@ public class JobsInDay {
 	}
 	
 	public void getJobPath() {
-		JobData currentPoint = new JobData(home, false);
+		Job start = new Job(home, home);
+		JobData currentPoint = new JobData(start, false);
 		currentPoint.setCost(0);
 		Coordinate previousPostion = null;
 		unvisitedJobs.add(currentPoint);
@@ -50,63 +51,58 @@ public class JobsInDay {
 				continue;
 			
 			visitedJobs.add(currentPoint);
-			totalCost += currentPoint.getCost();
+			totalCost += currentPoint.getCost() - currentPoint.getHeuristic();
 			
-			if (previousPostion != null)
-				System.out.println("Move from " + previousPostion.getX() + 
-					" " + previousPostion.getY() + " to " + currentPoint.getPoint().getX()
-					+ " " + currentPoint.getPoint().getY());
+//			if (previousPostion != null)
+//				System.out.println("Move from " + previousPostion.getX() + 
+//					" " + previousPostion.getY() + " to " + currentPoint.getPoint().getX()
+//					+ " " + currentPoint.getPoint().getY());
 			
 			if (currentPoint.isJob()) {
-				currentPoint = deliverJob(currentPoint.getPoint());
+				currentPoint = deliverJob(currentPoint.getJob());
 				unvisitedJobs.clear();
 			}
 			
 			for (Job j : this.jobs) {
-				if (alreadyVisited(j.getFrom()))
+				if (alreadyVisited(j))
 					continue;
-				JobData jd = new JobData(j.getFrom(), true);
-				int cost = Job.calculateDistance(currentPoint.getPoint(), jd.getPoint());
-				jd.setCost(cost);
+				JobData jd = new JobData(j, true);
+				double cost = Job.calculateDistance(currentPoint.getJob().getFrom(), jd.getJob().getFrom());
+				jd.setHeuristic(Job.calculateHeuristic(currentPoint.getJob().getFrom(), jd.getJob().getTo()));
+				jd.setCost(cost + jd.getHeuristic());
 				unvisitedJobs.add(jd);
 			}
-			previousPostion = currentPoint.getPoint();
+			previousPostion = currentPoint.getJob().getFrom();
 		}
 		System.out.println("cost = " + totalCost);
 		System.out.println(visitedJobs.size() + " nodes explored");
 	}
 	
-	private JobData deliverJob(Coordinate from) {
-		Coordinate to = null;
-		for (Job j : this.jobs) {
-			if (j.getFrom() == from) {
-				to = j.getTo();
-				totalCost += j.getDistance();
-				break;
-			}
-		}
-		
+	private JobData deliverJob(Job j) {
+		int[] arr = {j.getTo().getX(), j.getTo().getY()};
+		Job to = new Job(arr, arr);
 		JobData endPoint = new JobData(to, false);
+		totalCost += j.getDistance();
 		
-		if (from.getX() != to.getX() ||
-				from.getY() != to.getY())
-			System.out.println("Carry from " + from.getX() + " " + from.getY()
-					+ " to " + to.getX() + " " + to.getY());		
+//		if (j.getFrom().getX() != j.getTo().getX() ||
+//				j.getFrom().getY() != j.getFrom().getY())
+			System.out.println("Carry from " + j.getFrom().getX() + " " + j.getFrom().getY()
+					+ " to " + j.getTo().getX() + " " + j.getTo().getY());		
 		
 		return endPoint;
 	}
 	
-	private boolean alreadyVisited(Coordinate c) {
+	private boolean alreadyVisited(Job j) {
 		for(JobData jd : visitedJobs) {
-			if (jd.getPoint() == c)
+			if (jd.getJob() == j)
 				return true;
 		}
 		return false;
 	}
 	
 	private LinkedList<Job> jobs;
-	private static final Coordinate home = new Coordinate(0, 0);
-	private PriorityQueue<JobData> unvisitedJobs = new PriorityQueue<>(100, new Comparator<JobData>() {
+	private static final int[] home = {0, 0};
+	private PriorityQueue<JobData> unvisitedJobs = new PriorityQueue<JobData>(100, new Comparator<JobData>() {
 
 		@Override
 		public int compare(JobData o1, JobData o2) {

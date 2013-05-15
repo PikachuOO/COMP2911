@@ -57,6 +57,14 @@ public class Job {
 				Math.abs(from.getY() - to.getY()));
 	}
 	
+	public static double calculateHeuristic(Coordinate from, Coordinate to) {
+		double a = from.getX() - to.getX();
+		a *= a;
+		double b = from.getY() - to.getY();
+		b *= b;
+		return (Math.sqrt(a + b));
+	}
+	
 	private Coordinate from;
 	private Coordinate to;
 	private int distance;

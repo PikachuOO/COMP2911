@@ -1,19 +1,23 @@
 
 public class JobData {
-	public JobData(Coordinate c, boolean isJob) {
-		this.point = c;
+	public JobData(Job j, boolean isJob) {
+		this.job = j;
 		this.isJob = isJob;
 	}
 	
-	public void setCost(int cost) {
-		this.cost = cost;
+	public void setCost(double cost2) {
+		this.cost = cost2;
 	}
 	
-	public Coordinate getPoint() {
-		return this.point;
+	public void setHeuristic(double h) {
+		this.heuristic = h;
 	}
 	
-	public int getCost() {
+	public Job getJob() {
+		return this.job;
+	}
+	
+	public double getCost() {
 		return this.cost;
 	}
 	
@@ -21,7 +25,12 @@ public class JobData {
 		return this.isJob;
 	}
 	
-	private Coordinate point;
-	private int cost;
+	public double getHeuristic() {
+		return this.heuristic;
+	}
+	
+	private Job job;
+	private double heuristic;
+	private double cost;
 	private boolean isJob;
 }
